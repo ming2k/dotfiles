@@ -1,0 +1,104 @@
+# Default backup storage location
+backup_root = "assets/backup"
+
+# Window Managers & Desktop Environment
+[configs.sway]
+source = "$HOME/.config/sway"
+backup = "sway"
+desc = "Sway window manager configuration"
+enabled = true
+
+[configs.waybar]
+source = "$HOME/.config/waybar"
+backup = "waybar"
+desc = "Waybar status bar configuration"
+enabled = true
+
+[configs.mako]
+source = "$HOME/.config/mako"
+backup = "mako"
+desc = "Notification"
+enabled = true
+
+[configs.swaylock]
+source = "$HOME/.config/swaylock"
+backup = "swaylock"
+desc = "Screen locker configuration"
+enabled = true
+
+# Terminals
+[configs.kitty]
+source = "$HOME/.config/kitty"
+backup = "kitty"
+desc = "Kitty terminal configuration"
+enabled = true
+
+[configs.alacritty]
+source = "$HOME/.config/alacritty"
+backup = "alacritty"
+desc = "Alacritty terminal configuration"
+enabled = true
+
+[configs.tmux]
+source = "$HOME/.config/tmux"
+backup = "tmux"
+desc = ""
+enabled = true
+
+[configs.bash_dir]
+source = "$HOME/.bash/_mixins"
+backup = "bash/.bash/_mixins"
+desc = ""
+enabled = true
+
+[configs.bashrc]
+source = "$HOME/.bashrc"
+backup = "bash/.bashrc"
+desc = ""
+enabled = true
+
+[configs.zsh_dir]
+source = "$HOME/.zsh/_mixins"
+backup = "zsh/.zsh/_mixins"
+desc = ""
+enabled = true
+
+[configs.zshrc]
+source = "$HOME/.zshrc"
+backup = "zsh/.zshrc"
+desc = ""
+enabled = true
+
+# System Configuration
+[configs.fontconfig]
+source = "$HOME/.config/fontconfig"
+backup = "fontconfig"
+desc = "Font configuration"
+enabled = true
+
+# Development Tools
+[configs.nvim]
+source = "$HOME/.config/nvim"
+backup = "nvim"
+desc = "Neovim editor configuration"
+enabled = true
+
+# Applications
+[configs.rofi]
+source = "$HOME/.config/rofi"
+backup = "rofi"
+desc = "Rofi application launcher configuration"
+enabled = true
+
+[configs.mpv]
+source = "$HOME/.config/mpv"
+backup = "mpv"
+desc = "MPV media player configuration"
+enabled = true
+
+# System Utilities
+[configs.dunst]
+source = "$HOME/.config/dunst"
+backup = "dunst"
+desc = "Dunst notification daemon configuration"
+enabled = true
