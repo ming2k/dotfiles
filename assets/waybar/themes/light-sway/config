@@ -1,0 +1,105 @@
+// `format` use pango markup language
+{
+  "layer": "top",
+  "position": "top",
+  "margin-top": 0,
+  "margin-bottom": 0,
+  "margin-right": 0,
+  "margin-left": 0,
+  "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["tray", "backlight", "wireplumber", "bluetooth", "network", "battery", "idle_inhibitor"],
+  "sway/workspaces": {
+    "format": "{icon}",
+    "tooltip": false,
+    "all-outputs": false,
+    "format-icons": {
+      "1": "壹",
+      "2": "貳",
+      "3": "叁",
+      "4": "肆",
+      "5": "伍",
+      "6": "陸",
+      "7": "柒",
+      "8": "捌",
+      "9": "玖",
+      "0": "零"
+    },
+    "persistent-workspaces": {
+      //"1": [],
+      //"2": [],
+      // ...
+    }
+  },
+  "sway/mode": {
+    "format": "󰭩 {}",
+    "tooltip": false
+  },
+  "sway/window": {
+    "format": "{}",
+    "icon": true,
+    "icon-size": 16,
+    "max-length": 24,
+    "rewrite": {}
+  },
+  "clock": {
+    "interval": 1,
+    "format": "{:%H:%M:%S}",
+    "tooltip-format": "{:%A, %B %d, %Y}"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰅶 ON",
+      "deactivated": "󰾫 OFF"
+    },
+    "tooltip": false
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 8,
+    "reverse-direction": true
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "󰖨 {percent}%",
+    "scroll-step": 1,
+    "tooltip": false
+  },
+  "wireplumber": {
+    "format": "󰕾 {volume}%",
+    "format-muted": "󰖁",
+    "scroll-step": 1,
+    "on-click": "~/.config/waybar/scripts/toggle_mute_master.sh",
+    "tooltip-format": "{node_name}"
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": "󰂱",
+    "format-connected-battery": "󰥉 {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\tBatt.{device_battery_percentage}%"
+  },
+  "network": {
+    "format": "󰛵 {ifname}",
+    "format-wifi": "󰖩 {essid}",
+    "format-ethernet": "󰌘 {ipaddr}/{cidr}",
+    "format-disconnected": "󰌙 Disconnected",
+    "on-click": "~/.config/waybar/scripts/wifi-connect.sh",
+    "max-length": 12,
+    "tooltip-format": "{ifname}",
+    "tooltip-format-wifi": "{essid} ({signaldBm} dBm)\t{ipaddr}/{cidr}",
+    "tooltip-format-disconnected": "Disconnected"
+  },
+  "battery": {
+    "interval": 1,
+    "format": "{icon} {capacity}%",
+    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-plugged": "󰚥 {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "tooltip": false
+  }
+}
+// vim: filetype=jsonc:

@@ -1,0 +1,32 @@
+[colors.primary]
+background = "#fafafa"  # Slightly off-white for better eye comfort
+foreground = "#2c2e34"  # Darker foreground for better contrast
+
+[colors.cursor]
+text = "#ffffff"
+cursor = "#2c2e34"
+
+[colors.selection]
+text = "#2c2e34"
+background = "#c1c3c9"
+
+[colors.normal]
+black = "#2c2e34"
+red = "#e06c75"
+green = "#3fb950"
+yellow = "#d18616"
+blue = "#2f74c0"
+magenta = "#9c27b0"
+cyan = "#0891b2"
+white = "#8e8e8e"
+
+[colors.bright]
+black = "#4a4c52"
+red = "#ff7a86"
+green = "#4dc666"
+yellow = "#e6a23c"
+blue = "#4d9fff"
+magenta = "#bb44c9"
+cyan = "#26b9d4"
+white = "#6e6e6e"
+

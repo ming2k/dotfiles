@@ -1,0 +1,25 @@
+[general]
+import = [
+    # color
+    # https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
+    "~/.config/alacritty/themes/luminous_tenderness.toml"
+]
+
+[terminal.shell]
+program = "/usr/bin/tmux"
+args = ["new-session", "-A", "-s", "main"]
+
+[window]
+opacity = 1
+padding.x = 0
+padding.y = 0
+
+[font]
+size = 11
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Shift"
+action = "None" 
+
+

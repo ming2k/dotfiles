@@ -1,0 +1,109 @@
+* {
+    border: none;
+    border-radius: 0px;
+    min-height: 0;
+    font-family: "JetBrainsMono Nerd Font", sans-serif; /* Support icon fonts */
+    font-size: 14px;
+    text-shadow: none;
+}
+
+window#waybar {
+    background-color: #FFFFFF;
+    transition-property: background-color;
+    transition-duration: 0.4s;
+}
+
+/* Use consistent spacing and styling to reduce code duplication */
+#workspaces button,
+#mode,
+#window,
+#memory,
+#custom-power,
+#battery,
+#backlight,
+#wireplumber,
+#network,
+#bluetooth,
+#idle_inhibitor,
+#clock,
+#tray {
+    margin: 3px 4px;
+    padding: 0px 6px;
+    border-radius: 2px;
+    /* Use light gray background with slate text for contrast */
+    background-color: #f3f4f6;
+    color: #334155;
+}
+
+/* workspace button module */
+#workspaces button.focused {
+    background-color: #7aa2f7;
+    color: #ffffff;
+}
+
+#workspaces button:hover {
+    background-color: #9f9f9f;
+}
+
+#workspaces button.urgent {
+    background-color: #ff6b6b;
+    color: #ffffff;
+}
+
+window#waybar.empty #window { 
+  opacity: 0; /* hidden if no window opened */
+}
+
+/* Set larger margin size to distinguish modules */
+#workspaces {
+    margin-right: 6px;
+}
+
+#mode {
+    margin-right: 6px;
+}
+
+#window {
+    margin-right: 6px;
+}
+
+/* Set the margins for the left and right edges of the screen */
+#workspaces {
+    margin-left: 8px;
+}
+
+#idle_inhibitor {
+    margin-right: 8px;
+}
+
+#battery.warning,
+#battery.critical,
+#battery.urgent {
+    background-color: #ff6b6b;
+    color: #ffffff;
+}
+
+#battery.charging {
+    background-color: #98c379;
+    color: #ffffff;
+}
+
+#bluetooth.connected {
+    color: #7aa2f7;
+}
+
+#idle_inhibitor.activated {
+    color: #7aa2f7;
+}
+
+tooltip {
+    background-color: #ffffff;
+    border: 1px solid rgba(100, 114, 125, 0.5);
+    border-radius: 4px;
+}
+
+tooltip label {
+    padding: 0px 4px;
+    color: #334155;
+}
+
