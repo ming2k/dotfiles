@@ -1,3 +1,7 @@
+if true then
+  return {}
+end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
