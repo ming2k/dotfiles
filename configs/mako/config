@@ -1,0 +1,84 @@
+# Take a look at the mako manpage with the command:
+#   man 5 mako
+# To view all configuration options.
+
+# Font matching waybar style
+font=Cantarell 13
+format=<b>%a ⏵</b> %s\n%b
+sort=-time
+output=DP-2
+layer=overlay
+anchor=top-center
+
+# Color scheme matching waybar's dark theme
+background-color=#323232
+text-color=#ffffff
+width=320
+height=100
+margin=8
+padding=10
+border-size=2
+border-radius=2
+border-color=#888888
+icons=1
+max-icon-size=48
+default-timeout=5000
+ignore-timeout=1
+
+# Progress bar styling to match waybar aesthetics
+progress-color=#4c7899
+
+# Normal notifications - subtle styling
+[urgency=normal]
+border-color=#888888
+background-color=#323232
+
+# Warning notifications - matching waybar warning color
+[urgency=high]
+border-color=#ff8800
+background-color=#323232
+text-color=#ff8800
+default-timeout=8000
+
+# Critical notifications - matching waybar critical color
+[urgency=critical]
+border-color=#ff0000
+background-color=#323232
+text-color=#ff0000
+default-timeout=0
+
+# Application-specific styling
+[app-name=lightcord]
+border-color=#4c7899
+background-color=#285577
+
+# Log notifications - using a muted approach
+[summary~="log-.*"]
+border-color=#64727D
+text-color=#888888
+
+# Hide specific notification patterns
+[app-name=lightcord summary~="(.*(^| )orz|ORZ|sto|STO|otl|OTL( |$).*)"]
+invisible=1
+
+# Battery notifications matching waybar battery module
+[app-name=battery]
+border-color=#ff8800
+
+[app-name=battery urgency=critical]
+border-color=#ff0000
+
+# Network notifications
+[app-name=NetworkManager]
+border-color=#888888
+
+[app-name=NetworkManager summary~=".*disconnected.*"]
+border-color=#ff8800
+
+# Volume notifications
+[app-name=pulseaudio]
+border-color=#888888
+
+# System notifications
+[app-name=systemd]
+border-color=#64727D

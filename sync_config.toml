@@ -16,10 +16,6 @@ exclude_patterns = [
     "__pycache__/**",
     "*.pyc",
     ".DS_Store",
-    "Thumbs.db",
-    "lazy-lock.json",  # Neovim plugin lockfile
-    "mason/**",        # Neovim LSP installs
-    ".luarc.json"      # Neovim LSP cache
 ]
 
 # Desktop Environment Configurations
@@ -77,24 +73,6 @@ enabled = true
 name = "Zsh Shell"
 source = "$HOME/.config/zsh"
 dest = "zsh"
-enabled = true
-
-[configs.zshrc]
-name = "Zsh Config File"
-source = "$HOME/.zshrc"
-dest = "zsh/.zshrc"
-enabled = true
-
-[configs.bash]
-name = "Bash Shell"
-source = "$HOME/.bash"
-dest = "bash"
-enabled = true
-
-[configs.bashrc]
-name = "Bash Config File"
-source = "$HOME/.bashrc"
-dest = "bash/.bashrc"
 enabled = true
 
 # Applications

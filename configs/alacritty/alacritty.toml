@@ -1,0 +1,21 @@
+[general]
+import = [
+       "~/.config/alacritty/themes/charcoal.toml"
+]
+
+# [terminal.shell]
+# program = "/usr/bin/tmux"
+# args = ["new-session", "-A", "-s", "main"]
+
+[window]
+opacity = 1
+padding.x = 0
+padding.y = 0
+
+[font]
+size = 11
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
