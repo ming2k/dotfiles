@@ -1,0 +1,117 @@
+# Dotfiles Sync Configuration
+# This file controls how configurations are synced between your system and this repository
+
+[global]
+# Directory where configs are stored in this repo
+config_root = "configs"
+# Backup directory for system configs
+backup_root = "backups"
+# Default exclusion patterns (applied to all configs)
+exclude_patterns = [
+    "*.log",
+    "*.cache",
+    ".git/**",
+    ".svn/**",
+    "node_modules/**",
+    "__pycache__/**",
+    "*.pyc",
+    ".DS_Store",
+    "Thumbs.db",
+    "lazy-lock.json",  # Neovim plugin lockfile
+    "mason/**",        # Neovim LSP installs
+    ".luarc.json"      # Neovim LSP cache
+]
+
+# Desktop Environment Configurations
+[configs.sway]
+name = "Sway Window Manager"
+source = "$HOME/.config/sway"
+dest = "sway"
+enabled = true
+
+[configs.waybar]
+name = "Waybar Status Bar"
+source = "$HOME/.config/waybar"
+dest = "waybar"
+enabled = true
+
+[configs.swaylock]
+name = "Swaylock Screen Locker"
+source = "$HOME/.config/swaylock"
+dest = "swaylock"
+enabled = true
+
+[configs.mako]
+name = "Mako Notifications"
+source = "$HOME/.config/mako"
+dest = "mako"
+enabled = true
+
+[configs.dunst]
+name = "Dunst Notifications"
+source = "$HOME/.config/dunst"
+dest = "dunst"
+enabled = true
+
+# Terminal Environment
+[configs.tmux]
+name = "Tmux Terminal Multiplexer"
+source = "$HOME/.config/tmux"
+dest = "tmux"
+enabled = true
+
+[configs.kitty]
+name = "Kitty Terminal"
+source = "$HOME/.config/kitty"
+dest = "kitty"
+enabled = true
+
+[configs.alacritty]
+name = "Alacritty Terminal"
+source = "$HOME/.config/alacritty"
+dest = "alacritty"
+enabled = true
+
+# Shell Configurations
+[configs.zsh]
+name = "Zsh Shell"
+source = "$HOME/.config/zsh"
+dest = "zsh"
+enabled = true
+
+[configs.zshrc]
+name = "Zsh Config File"
+source = "$HOME/.zshrc"
+dest = "zsh/.zshrc"
+enabled = true
+
+[configs.bash]
+name = "Bash Shell"
+source = "$HOME/.bash"
+dest = "bash"
+enabled = true
+
+[configs.bashrc]
+name = "Bash Config File"
+source = "$HOME/.bashrc"
+dest = "bash/.bashrc"
+enabled = true
+
+# Applications
+[configs.rofi]
+name = "Rofi Application Launcher"
+source = "$HOME/.config/rofi"
+dest = "rofi"
+enabled = true
+
+[configs.mpv]
+name = "MPV Media Player"
+source = "$HOME/.config/mpv"
+dest = "mpv"
+enabled = true
+
+[configs.fontconfig]
+name = "Font Configuration"
+source = "$HOME/.config/fontconfig"
+dest = "fontconfig"
+enabled = true
