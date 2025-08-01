@@ -1,0 +1,26 @@
+#!/bin/sh
+
+killall swaybg
+
+source $HOME/.config/river/preflight.sh
+
+wlr-randr --output eDP-1 --mode 3072x1920@120Hz --scale 2 --pos 0,0
+# Modify the postion to change the content of screen, same or extent.
+# wlr-randr --output HDMI-A-1 --mode 1920x1080 --pos 0,0
+# riverctl set-output-tags HDMI-A-1 9
+
+riverctl xcursor-theme "Bibata-Modern-Ice" 24
+
+riverctl set-repeat 60 300
+riverctl border-color-focused 0x87AFDF
+
+# Set current laptop's touchpad natural scroll
+# Via `riverctl list-inputs`
+riverctl input 'pointer-1267-12693-ELAN0676:00_04F3:3195_Touchpad' natural-scroll enabled
+
+source $HOME/.config/river/desktop-services.sh
+source $HOME/.config/river/layout.sh
+
+source $HOME/.config/river/keybindings.sh
+source $HOME/.config/river/window-rules.sh
+

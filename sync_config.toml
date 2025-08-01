@@ -16,6 +16,8 @@ exclude_patterns = [
     "__pycache__/**",
     "*.pyc",
     ".DS_Store",
+    ".CLAUDE.md",
+    ".claude/**",
 ]
 
 # Desktop Environment Configurations
@@ -23,6 +25,12 @@ exclude_patterns = [
 name = "Sway Window Manager"
 source = "$HOME/.config/sway"
 dest = "sway"
+enabled = true
+
+[configs.river]
+name = "River Window Manager"
+source = "$HOME/.config/river"
+dest = "river"
 enabled = true
 
 [configs.waybar]
@@ -92,4 +100,10 @@ enabled = true
 name = "Font Configuration"
 source = "$HOME/.config/fontconfig"
 dest = "fontconfig"
+enabled = true
+
+[configs.cava]
+name = "Cava Audio Visualizer"
+source = "$HOME/.config/cava"
+dest = "cava"
 enabled = true

@@ -1,0 +1,64 @@
+[general]
+# Cava Vibe Configuration - Smooth atmospheric audio visualization
+framerate = 120
+bars = 0
+autosens = 1
+sensitivity = 100
+lower_cutoff_freq = 50
+higher_cutoff_freq = 10000
+
+[input]
+method = pulse
+source = auto
+
+[output]
+method = ncurses
+orientation = bottom
+channels = stereo
+mono_option = average
+reverse = 0
+raw_target = /dev/stdout
+data_format = binary
+bit_format = 16bit
+ascii_max_range = 1000
+bar_delimiter = 59
+
+[color]
+gradient = 1
+
+# Define gradient colors: calm deep → controlled transition → dangerous fire
+gradient_color_1 = '#0D1B2A'  # Deep intense navy (low volume/safe)
+gradient_color_2 = '#415A77'  # Steel blue transition (medium volume)
+gradient_color_3 = '#FF1744'  # Vibrant danger red (high volume/warning)
+
+
+# The higher the value the more "gravty"
+gravity = 200
+
+# Ignore the console's size and fallback to 200x50
+ignore = 0
+
+[smoothing]
+# Smooth, flowing movement
+monstercat = 1
+waves = 1
+gravity = 200
+integral = 77
+ignore = 0
+
+
+[eq]
+# EQ settings adjust the gain for different frequency bands (1.0 = normal, >1.0 = boost, <1.0 = reduce)
+# More bands = more precision. Values represent multipliers for each frequency range.
+
+1 = 1.2  # Sub-bass (20-60Hz): kick drums, 808s, bass drops - BOOSTED for impact
+2 = 1.2  # Bass (60-170Hz): bass guitar, low vocals, drum fundamentals - enhanced
+3 = 1.1  # Low-mids (170-350Hz): vocal warmth, guitar body - neutral
+4 = 1.1  # Mids (350-1kHz): vocal clarity, snare, most instruments - neutral  
+5 = 1.1  # Upper-mids (1-2kHz): vocal presence, guitar attack - slightly reduced
+6 = 0.8  # High-mids (2-4kHz): cymbal attack, vocal sibilance - reduced
+7 = 0.8  # Highs (4-6kHz): cymbal shimmer, string brightness - reduced
+8 = 0.8  # High-highs (6-8kHz): air, sparkle - reduced to avoid harshness
+9 = 0.8  # Very high (8-12kHz): extreme detail, tape hiss - minimal
+10 = 0.8 # Ultra high (12kHz+): barely audible harmonics - very minimal
+
