@@ -1,4 +1,4 @@
-riverctl spawn "pkill swaybg; swaybg -i ~/.config/river/wallpapers/the-school-of-athens.jpg -m fill"
+riverctl spawn "pkill swaybg; swaybg -i ~/.config/river/assets/wallpapers/the-school-of-athens.jpg -m fill"
 riverctl spawn "pkill waybar; waybar -c ~/.config/waybar/river/config -s ~/.config/waybar/river/style.css"
 riverctl spawn "pkill mako; mako"  
 riverctl spawn "pkill fcitx5; fcitx5 -r -d"

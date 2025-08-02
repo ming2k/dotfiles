@@ -62,9 +62,6 @@ riverctl map normal Super Right send-layout-cmd rivercarro "main-location right"
 riverctl map normal Super Down  send-layout-cmd rivercarro "main-location bottom"
 riverctl map normal Super Left  send-layout-cmd rivercarro "main-location left"
 
-riverctl map normal Super+Shift   Up send-layout-cmd rivercarro   "main-count +1"
-riverctl map normal Super+Shift   Down send-layout-cmd rivercarro "main-count -1"
-
 riverctl map normal Super           F   toggle-float
 riverctl map normal Super+Shift     F   toggle-fullscreen
 riverctl map normal Super           M   send-layout-cmd rivercarro "main-location-cycle left,monocle"
@@ -82,6 +79,10 @@ riverctl map normal None Print spawn 'grim -g "$(slurp)" - | wl-copy'
 
 # Region screenshot to file (Shift + PrintScreen)
 riverctl map normal Shift Print spawn 'grim -g "$(slurp)" ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png'
+
+# OCR shortcuts
+riverctl map normal Super O spawn '$HOME/.config/river/scripts/ocr.sh -s -c'
+riverctl map normal Super+Shift O spawn '$HOME/.config/river/scripts/ocr.sh -s -c -p'
 
 # ------------------------------------------------------------
 # Multiple Display
