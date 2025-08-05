@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Color Defined
+ * Defined Color
  * -------------------------------------------------------------------------- */
 
 @define-color base   #24273a;
@@ -32,7 +32,6 @@
 @define-color pink      #f5bde6;
 @define-color flamingo  #f0c6c6;
 @define-color rosewater #f4dbd6;
-
 
 /* -----------------------------------------------------------------------------
  * Keyframes
@@ -86,7 +85,7 @@
 #battery,
 #clock,
 #cpu,
-#custom-keyboard-layout,
+#idle_inhibitor,
 #memory,
 #mode,
 #network,
@@ -140,6 +139,16 @@
 
 #cpu.critical {
     color: red;
+}
+
+#idle_inhibitor {
+    color: #a5adcb;
+}
+
+#idle_inhibitor.activated {
+    color: @yellow;
+    background-color: rgba(238, 212, 159, 0.2);
+    border-radius: 4px;
 }
 
 #memory {
@@ -197,6 +206,10 @@
     /* No styles */
 }
 
+#tray menu {
+    font-size: 14px;
+}
+
 #window {
     font-family: DejaVu Sans;
     font-weight: bold;
@@ -222,3 +235,4 @@
     border-color: #c9545d;
     color: #c9545d;
 }
+

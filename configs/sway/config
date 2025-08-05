@@ -2,12 +2,8 @@
 
 # WARN: Inline comments are not allowed in sway configuration files.
 
-# seat seat0 xcursor_theme Bibata-Modern-Ice 24
-seat seat0 xcursor_theme Adwaita 24
-
-bar {
-    swaybar_command waybar
-}
+seat seat0 xcursor_theme Bibata-Modern-Ice 24
+# seat seat0 xcursor_theme Adwaita 24
 
 # Use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
@@ -17,10 +13,10 @@ focus_follows_mouse no
 focus_on_window_activation smart
 focus_wrapping yes
 
-include /home/ming/.config/sway/config.d/appearance.conf
-include /home/ming/.config/sway/config.d/monitor.conf
-include /home/ming/.config/sway/config.d/window-rule.conf
-include /home/ming/.config/sway/config.d/keybind.conf
-include /home/ming/.config/sway/config.d/devices.conf
-include /home/ming/.config/sway/config.d/exec.conf
+include /home/ming/.config/sway/modules/01-displays.conf
+include /home/ming/.config/sway/modules/02-input-devices.conf
+include /home/ming/.config/sway/modules/03-appearance-theme.conf
+include /home/ming/.config/sway/modules/04-keybindings.conf
+include /home/ming/.config/sway/modules/05-window-rules.conf
+include /home/ming/.config/sway/modules/06-autostart.conf
 

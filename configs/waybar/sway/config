@@ -17,21 +17,24 @@
         "cpu",
         "temperature",
         "network",
-        "battery"
+        "battery",
+        "idle_inhibitor"
     ],
-
 
     // -------------------------------------------------------------------------
     // Modules
     // -------------------------------------------------------------------------
-    "sway/workspaces": {},
-    "sway/window": {
-        "format": "{}",
-        "max-length": 120
+
+    "river/tags": {
+        "num-tags": 5
     },
-    "sway/mode": {
+    "river/mode": {
         "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
         "tooltip": false
+    },
+    "river/window": {
+        "format": "{}",
+        "max-length": 120
     },
 
     "battery": {
@@ -127,6 +130,13 @@
     "tray": {
         "icon-size": 14,
         "spacing": 10
-    }
+    },
 
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰾪"
+        }
+    }
 }

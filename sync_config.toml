@@ -104,6 +104,12 @@ source = "$HOME/.config/alacritty"
 dest = "alacritty"
 enabled = true
 
+[configs.foot]
+name = "Foot Terminal"
+source = "$HOME/.config/foot"
+dest = "foot"
+enabled = true
+
 # Shell Configurations
 [configs.zsh]
 name = "Zsh Shell"
