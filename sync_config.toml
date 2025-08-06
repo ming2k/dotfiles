@@ -141,3 +141,18 @@ name = "Cava Audio Visualizer"
 source = "$HOME/.config/cava"
 dest = "cava"
 enabled = true
+
+# System-level configurations (manual installation required)
+[configs.keymap_udev]
+name = "udev Hardware Database"
+source = "/etc/udev/hwdb.d"
+dest = "keymap/udev"
+enabled = true
+backup_only = true
+
+[configs.keymap_keyd]
+name = "keyd Configuration"
+source = "/etc/keyd/default.conf"
+dest = "keymap/keyd"
+enabled = true
+backup_only = true

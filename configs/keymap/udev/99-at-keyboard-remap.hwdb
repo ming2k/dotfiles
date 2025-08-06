@@ -1,0 +1,5 @@
+evdev:input:b0011v0001p0001*
+ KEYBOARD_KEY_db=leftalt
+ KEYBOARD_KEY_38=leftmeta
+ KEYBOARD_KEY_3a=leftctrl
+ KEYBOARD_KEY_b8=rightmeta

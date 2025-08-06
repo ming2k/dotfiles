@@ -30,37 +30,35 @@ print_header() { echo -e "${BOLD}${CYAN}$1${NC}"; }
 show_usage() {
     print_header "🏠 Dotfiles Sync Tool"
     echo
-    cat << EOF
-${BOLD}USAGE:${NC}
-    $0 <command> [options] [configs...]
-
-${BOLD}COMMANDS:${NC}
-    ${GREEN}install${NC} [configs...]     📥 Install configurations from repo to system
-    ${GREEN}backup${NC} [configs...]      📤 Backup system configurations to repo
-    ${GREEN}list${NC}                     📋 List all available configurations
-    ${GREEN}status${NC} [configs...]      📊 Show status of configurations
-    ${GREEN}help${NC}                     ❓ Show this help message
-
-${BOLD}OPTIONS:${NC}
-    ${YELLOW}--dry-run${NC}               🔍 Show what would be done without executing
-    ${YELLOW}--force${NC}                 💪 Overwrite existing files without prompting
-    ${YELLOW}--exclude-personal${NC}      🔒 Skip files that might contain personal info
-
-${BOLD}EXAMPLES:${NC}
-    $0 install                    # Install all enabled configurations
-    $0 install sway waybar        # Install only sway and waybar
-    $0 backup --dry-run          # Show what would be backed up
-    $0 list                      # List available configurations
-    $0 status                    # Check status of all configurations
-
-${BOLD}QUICK START:${NC}
-    1. List available configs:    ${CYAN}./sync.sh list${NC}
-    2. Install what you need:     ${CYAN}./sync.sh install sway waybar tmux${NC}
-    3. Check if it worked:        ${CYAN}./sync.sh status${NC}
-
-${BOLD}CONFIGURATION:${NC}
-    Edit ${CYAN}sync_config.toml${NC} to customize sync behavior and add/remove configs.
-EOF
+    echo -e "${BOLD}USAGE:${NC}"
+    echo "    $0 <command> [options] [configs...]"
+    echo
+    echo -e "${BOLD}COMMANDS:${NC}"
+    echo -e "    ${GREEN}install${NC} [configs...]     📥 Install configurations from repo to system"
+    echo -e "    ${GREEN}backup${NC} [configs...]      📤 Backup system configurations to repo"
+    echo -e "    ${GREEN}list${NC}                     📋 List all available configurations"
+    echo -e "    ${GREEN}status${NC} [configs...]      📊 Show status of configurations"
+    echo -e "    ${GREEN}help${NC}                     ❓ Show this help message"
+    echo
+    echo -e "${BOLD}OPTIONS:${NC}"
+    echo -e "    ${YELLOW}--dry-run${NC}               🔍 Show what would be done without executing"
+    echo -e "    ${YELLOW}--force${NC}                 💪 Overwrite existing files without prompting"
+    echo -e "    ${YELLOW}--exclude-personal${NC}      🔒 Skip files that might contain personal info"
+    echo
+    echo -e "${BOLD}EXAMPLES:${NC}"
+    echo "    $0 install                    # Install all enabled configurations"
+    echo "    $0 install sway waybar        # Install only sway and waybar"
+    echo "    $0 backup --dry-run          # Show what would be backed up"
+    echo "    $0 list                      # List available configurations"
+    echo "    $0 status                    # Check status of all configurations"
+    echo
+    echo -e "${BOLD}QUICK START:${NC}"
+    echo -e "    1. List available configs:    ${CYAN}./sync.sh list${NC}"
+    echo -e "    2. Install what you need:     ${CYAN}./sync.sh install sway waybar tmux${NC}"
+    echo -e "    3. Check if it worked:        ${CYAN}./sync.sh status${NC}"
+    echo
+    echo -e "${BOLD}CONFIGURATION:${NC}"
+    echo -e "    Edit ${CYAN}sync_config.toml${NC} to customize sync behavior and add/remove configs."
 }
 
 # Function to parse TOML (simplified but more robust)
@@ -93,6 +91,7 @@ parse_config() {
                     "dest") eval "CONFIG_${config_name}_DEST=\"$value\"" ;;
                     "name") eval "CONFIG_${config_name}_NAME=\"$value\"" ;;
                     "enabled") eval "CONFIG_${config_name}_ENABLED=\"$value\"" ;;
+                    "backup_only") eval "CONFIG_${config_name}_BACKUP_ONLY=\"$value\"" ;;
                 esac
             fi
         fi
@@ -136,7 +135,7 @@ sanitize_file() {
     esac
 }
 
-# Function to list available configurations with better formatting
+# Function to list available configurations
 list_configs() {
     print_header "📋 Available Configurations"
     echo
@@ -145,47 +144,18 @@ list_configs() {
     
     local configs=($(compgen -v | grep "^CONFIG_.*_NAME$" | sed 's/CONFIG_//;s/_NAME$//'))
     
-    # Group configs by category
-    local desktop_configs=()
-    local terminal_configs=()
-    local app_configs=()
+    if [[ ${#configs[@]} -eq 0 ]]; then
+        print_warning "No configurations found in sync_config.toml"
+        return
+    fi
+    
+    # Sort configs alphabetically
+    IFS=$'\n' configs=($(sort <<<"${configs[*]}"))
+    unset IFS
     
     for config in "${configs[@]}"; do
-        local dest_var="CONFIG_${config}_DEST"
-        local dest="${!dest_var:-unknown}"
-        
-        if [[ "$dest" =~ ^desktop/ ]]; then
-            desktop_configs+=("$config")
-        elif [[ "$dest" =~ ^terminal/ ]]; then
-            terminal_configs+=("$config")
-        elif [[ "$dest" =~ ^apps/ ]]; then
-            app_configs+=("$config")
-        fi
+        display_config_info "$config" ""
     done
-    
-    # Display by categories
-    if [[ ${#desktop_configs[@]} -gt 0 ]]; then
-        echo -e "${BOLD}🖥️  Desktop Environment:${NC}"
-        for config in "${desktop_configs[@]}"; do
-            display_config_info "$config" "  "
-        done
-        echo
-    fi
-    
-    if [[ ${#terminal_configs[@]} -gt 0 ]]; then
-        echo -e "${BOLD}💻 Terminal:${NC}"
-        for config in "${terminal_configs[@]}"; do
-            display_config_info "$config" "  "
-        done
-        echo
-    fi
-    
-    if [[ ${#app_configs[@]} -gt 0 ]]; then
-        echo -e "${BOLD}📱 Applications:${NC}"
-        for config in "${app_configs[@]}"; do
-            display_config_info "$config" "  "
-        done
-    fi
 }
 
 # Helper function to display config info
@@ -196,20 +166,27 @@ display_config_info() {
     local name_var="CONFIG_${config}_NAME"
     local enabled_var="CONFIG_${config}_ENABLED"
     local dest_var="CONFIG_${config}_DEST"
+    local backup_only_var="CONFIG_${config}_BACKUP_ONLY"
     
     local name="${!name_var:-$config}"
     local enabled="${!enabled_var:-false}"
     local dest="${!dest_var:-unknown}"
+    local backup_only="${!backup_only_var:-false}"
     
     local status_icon="✓"
     local status_color="${GREEN}"
+    local backup_suffix=""
     
     if [[ "$enabled" != "true" ]]; then
         status_icon="✗"
         status_color="${YELLOW}"
     fi
     
-    printf "${prefix}${status_color}${status_icon}${NC} %-15s ${CYAN}%s${NC}\n" "$config" "$name"
+    if [[ "$backup_only" == "true" ]]; then
+        backup_suffix="${YELLOW} (backup only)${NC}"
+    fi
+    
+    printf "${prefix}${status_color}${status_icon}${NC} %-15s ${CYAN}%s${NC}${backup_suffix}\n" "$config" "$name"
 }
 
 # Function to install configurations with progress
@@ -231,12 +208,15 @@ install_configs() {
     
     parse_config
     
-    # If no configs specified, install all enabled ones
+    # If no configs specified, install all enabled ones (excluding backup-only)
     if [[ ${#configs[@]} -eq 0 ]]; then
         local all_configs=($(compgen -v | grep "^CONFIG_.*_ENABLED$" | sed 's/CONFIG_//;s/_ENABLED$//'))
         for config in "${all_configs[@]}"; do
             local enabled_var="CONFIG_${config}_ENABLED"
-            [[ "${!enabled_var}" == "true" ]] && configs+=("$config")
+            local backup_only_var="CONFIG_${config}_BACKUP_ONLY"
+            if [[ "${!enabled_var}" == "true" && "${!backup_only_var}" != "true" ]]; then
+                configs+=("$config")
+            fi
         done
     fi
     
@@ -259,13 +239,21 @@ install_configs() {
         local source_var="CONFIG_${config}_SOURCE"
         local dest_var="CONFIG_${config}_DEST"
         local name_var="CONFIG_${config}_NAME"
+        local backup_only_var="CONFIG_${config}_BACKUP_ONLY"
         
         local source="${!source_var}"
         local dest="${!dest_var}"
         local name="${!name_var:-$config}"
+        local backup_only="${!backup_only_var}"
         
         if [[ -z "$source" || -z "$dest" ]]; then
             print_error "Unknown configuration: $config"
+            continue
+        fi
+        
+        # Skip backup-only configurations during install
+        if [[ "$backup_only" == "true" ]]; then
+            print_warning "Skipping $name (backup-only configuration)"
             continue
         fi
         
