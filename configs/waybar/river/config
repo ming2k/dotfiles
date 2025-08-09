@@ -4,7 +4,6 @@
     "height": 30,
     "modules-left": [
         "river/tags",
-        // "river/mode",
         "river/window"
     ],
     "modules-center": [
@@ -63,7 +62,7 @@
         "tooltip": true,
         "tooltip-format": "{:%A, %B %d, %Y}"
     },
-
+ 
     "clock#date": {
       "interval": 10,
       "format": "  {:%e %b %Y}", // Icon: calendar-alt

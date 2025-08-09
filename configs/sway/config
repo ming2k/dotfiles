@@ -13,10 +13,11 @@ focus_follows_mouse no
 focus_on_window_activation smart
 focus_wrapping yes
 
-include /home/ming/.config/sway/modules/01-displays.conf
-include /home/ming/.config/sway/modules/02-input-devices.conf
-include /home/ming/.config/sway/modules/03-appearance-theme.conf
-include /home/ming/.config/sway/modules/04-keybindings.conf
-include /home/ming/.config/sway/modules/05-window-rules.conf
-include /home/ming/.config/sway/modules/06-autostart.conf
+include /home/ming/.config/sway/themes/charcoal.conf
+
+include /home/ming/.config/sway/modules/displays.conf
+include /home/ming/.config/sway/modules/input-devices.conf
+include /home/ming/.config/sway/modules/keybindings.conf
+include /home/ming/.config/sway/modules/window-rules.conf
+include /home/ming/.config/sway/modules/autostart.conf
 

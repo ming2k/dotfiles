@@ -141,16 +141,6 @@
     color: red;
 }
 
-#idle_inhibitor {
-    color: #a5adcb;
-}
-
-#idle_inhibitor.activated {
-    color: @yellow;
-    background-color: rgba(238, 212, 159, 0.2);
-    border-radius: 4px;
-}
-
 #memory {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -190,10 +180,6 @@
     /* No styles */
 }
 
-#custom-spotify {
-    color: rgb(102, 220, 105);
-}
-
 #temperature {
     /* No styles */
 }
@@ -214,6 +200,22 @@
     font-family: DejaVu Sans;
     font-weight: bold;
     padding-left: 10px;
+    padding-right: 20px;
+}
+
+#idle_inhibitor {
+    border-top: 2px solid transparent;
+    /* To compensate for the top border and still have vertical centering */
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #888888;
+}
+
+#idle_inhibitor.activated {
+    border-color: rgba(238, 212, 159, 0.4);
+    color: @yellow;
+    background-color: rgba(238, 212, 159, 0.2);
 }
 
 #tags button {

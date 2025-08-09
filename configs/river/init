@@ -3,12 +3,12 @@
 killall swaybg
 
 # Environment setup
-source $HOME/.config/river/env/preflight.sh
+source $HOME/.config/river/modules/env.sh
 
 # Core configuration
-source $HOME/.config/river/config/display.sh
-source $HOME/.config/river/config/input.sh
-source $HOME/.config/river/config/appearance.sh
+source $HOME/.config/river/modules/display.sh
+source $HOME/.config/river/modules/input.sh
+source $HOME/.config/river/modules/appearance.sh
 
 # Functional modules
 source $HOME/.config/river/modules/desktop-services.sh
