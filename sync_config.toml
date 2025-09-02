@@ -142,6 +142,18 @@ source = "$HOME/.config/cava"
 dest = "cava"
 enabled = true
 
+[configs.swayimg]
+name = "Swayimg Image Viewer"
+source = "$HOME/.config/swayimg"
+dest = "swayimg"
+enabled = true
+
+[configs.zathura]
+name = "Zathura PDF Viewer"
+source = "$HOME/.config/zathura"
+dest = "zathura"
+enabled = true
+
 # System-level configurations (manual installation required)
 [configs.keymap_udev]
 name = "udev Hardware Database"

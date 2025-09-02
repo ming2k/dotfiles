@@ -44,33 +44,23 @@ riverctl map-pointer normal Super BTN_LEFT move-view
 riverctl map-pointer normal Super BTN_RIGHT resize-view
 
 # ------------------------------------------------------------
-# Layout Command
+# Common Layout Command
 # ------------------------------------------------------------
 
-riverctl map normal Super+Shift   P    	swap previous
-riverctl map normal Super+Shift   N  	swap next
-
-riverctl map normal Super Equal send-layout-cmd rivercarro "main-ratio +0.05"
-riverctl map normal Super Minus send-layout-cmd rivercarro "main-ratio -0.05"
-
-riverctl map normal Super+Shift Equal send-layout-cmd rivercarro "main-count +1"
-riverctl map normal Super+Shift Minus send-layout-cmd rivercarro "main-count -1"
-
-# Mod+{Up,Right,Down,Left} to change layout orientation
-riverctl map normal Super Up    send-layout-cmd rivercarro "main-location top"
-riverctl map normal Super Right send-layout-cmd rivercarro "main-location right"
-riverctl map normal Super Down  send-layout-cmd rivercarro "main-location bottom"
-riverctl map normal Super Left  send-layout-cmd rivercarro "main-location left"
-
+# Common view management (not layout-specific)
 riverctl map normal Super           F   toggle-float
 riverctl map normal Super+Shift     F   toggle-fullscreen
-riverctl map normal Super           M   send-layout-cmd rivercarro "main-location-cycle left,monocle"
+
+riverctl map normal Super+Shift     P    	swap previous
+riverctl map normal Super+Shift     N  	  swap next
+
+# Layout-specific commands are now in modules/layouts/*.sh files
 
 # ------------------------------------------------------------
 # Applications
 # ------------------------------------------------------------
 
-riverctl map normal Super A         spawn "wofi --show drun"
+riverctl map normal Super A         spawn "wofi --show drun --insensitive"
 #riverctl map normal Super Return    spawn "foot"
 riverctl map normal Super Return    spawn "alacritty"
 
@@ -78,7 +68,7 @@ riverctl map normal Super Return    spawn "alacritty"
 riverctl map normal None Print spawn 'grim -g "$(slurp)" - | wl-copy'
 
 # Region screenshot to file (Shift + PrintScreen)
-riverctl map normal Shift Print spawn 'grim -g "$(slurp)" ~/Pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png'
+riverctl map normal Shift Print spawn 'grim -g "$(slurp)" ~/pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png'
 
 # OCR shortcuts
 riverctl map normal Super O spawn '$HOME/.config/river/scripts/ocr.sh -s -c'
@@ -93,4 +83,12 @@ riverctl map normal Super+Control bracketright focus-output previous
 riverctl map normal Super+Shift bracketleft send-to-output next
 riverctl map normal Super+Shift bracketright send-to-output previous
 
+# ------------------------------------------------------------
+# Rivertile
+# ------------------------------------------------------------
+riverctl map normal Super Left send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map normal Super Right send-layout-cmd rivertile "main-ratio +0.05"
+
+riverctl map normal Super Up send-layout-cmd rivertile "main-count +1"
+riverctl map normal Super Down send-layout-cmd rivertile "main-count -1"
 
