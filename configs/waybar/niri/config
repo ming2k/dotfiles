@@ -3,8 +3,9 @@
     "position": "top",
     "height": 30,
     "modules-left": [
-        "river/tags",
-        "river/window"
+        "niri/workspaces",
+        "niri/mode",
+        "niri/window"
     ],
     "modules-center": [
         "clock#time"
@@ -24,14 +25,23 @@
     // Modules
     // -------------------------------------------------------------------------
 
-    "river/tags": {
-        "num-tags": 5
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "urgent": "",
+            "default": ""
+        }
     },
-    "river/mode": {
-        "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
+    "niri/mode": {
+        "format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
         "tooltip": false
     },
-    "river/window": {
+    "niri/window": {
         "format": "{}",
         "max-length": 120
     },

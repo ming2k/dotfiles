@@ -61,6 +61,12 @@ source = "$HOME/.config/river"
 dest = "river"
 enabled = true
 
+[configs.niri]
+name = "Niri Window Manager"
+source = "$HOME/.config/niri"
+dest = "niri"
+enabled = true
+
 [configs.waybar]
 name = "Waybar Status Bar"
 source = "$HOME/.config/waybar"
