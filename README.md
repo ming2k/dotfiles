@@ -10,7 +10,7 @@ Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compos
 - **Terminal**: Tmux, Kitty, Alacritty, Zsh, Bash configs  
 - **Apps**: Rofi, MPV, Font configuration
 
-## How to Use
+## How to Use `sync.sh`
 
 ### Quick Start
 ```bash
@@ -49,6 +49,12 @@ Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compos
 ./sync.sh backup --exclude-personal
 ```
 
-## Configuration
+### Configuration
 
 Edit `sync_config.toml` to customize sync behavior, add/remove configurations, or change paths.
+
+
+> [!WARNING]
+> Maybe checking the result will encount error after you installed the config, this is because it may require some dependencies in config.
+
+

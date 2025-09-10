@@ -174,12 +174,14 @@ layout {
 spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
 spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
+spawn-at-startup "sh" "-c" "fcitx -r -d"
 
 hotkey-overlay {
   // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
   // skip-at-startup
 }
 
+// Dsiable Client-Side Decorations
 prefer-no-csd
 
 // You can change the path where screenshots are saved.
@@ -210,50 +212,59 @@ animations {
 
 binds {
   // Niri level
-  Mod+Shift+E           { quit; }
-  Mod+Q                 { close-window; }
-  Mod+F                 { fullscreen-window; }
+  Super+Shift+E           { quit; }
+  Super+Q                 { close-window; }
+  Super+F                 { fullscreen-window; }
 
-  Mod+Home              { focus-column-first; }
-  Mod+End               { focus-column-last; }
-  Mod+WheelScrollLeft   { focus-column-left; } 
-  Mod+WheelScrollRight  { focus-column-right; }
-  Mod+WheelScrollUp     { focus-window-up; } 
-  Mod+WheelScrollDown   { focus-window-down; }
+  Super+Home              { focus-column-first; }
+  Super+End               { focus-column-last; }
 
-  Mod+Shift+Left        { set-column-width "-10%"; }
-  Mod+Shift+Right       { set-column-width "+10%"; }
-  Mod+Shift+Up          { set-window-height "+10%"; }
-  Mod+Shift+Down        { set-window-height "-10%"; }
+  // Workspace and layout
+  Super+Left                          { focus-column-left; }
+  Super+Right                         { focus-column-right; }
+  Super+Down                          { focus-window-down; }
+  Super+Up                            { focus-window-up; }
+  Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+  Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
+  Mod+Shift+WheelScrollUp             { focus-column-left; }
+  Mod+Shift+WheelScrollDown           { focus-column-right; }
+  Mod+WheelScrollRight                { focus-column-right; }
+  Mod+WheelScrollLeft                 { focus-column-left; }
 
-  Mod+W                 { switch-preset-column-width; }
-  Mod+H                 { switch-preset-window-height; }
-  Mod+T                 { toggle-window-floating; }
-  Mod+M                 { maximize-column; }
-  Mod+Ctrl+Left         { move-column-left; }
-  Mod+Ctrl+Right        { move-column-right; }
-  Mod+Ctrl+Down         { move-window-down; }
-  Mod+Ctrl+Up           { move-window-up; }
-  Mod+Ctrl+Home         { move-column-to-first; }
-  Mod+Ctrl+End          { move-column-to-last; }
-  Mod+BracketLeft       { consume-or-expel-window-left; }
-  Mod+BracketRight      { consume-or-expel-window-right; }
-  Mod+Comma             { consume-window-into-column; }
-  Mod+Period            { expel-window-from-column; }
+  Super+Shift+Left        { set-column-width "-10%"; }
+  Super+Shift+Right       { set-column-width "+10%"; }
+  Super+Shift+Up          { set-window-height "+10%"; }
+  Super+Shift+Down        { set-window-height "-10%"; }
 
-  Mod+1 { focus-workspace 1; }
-  Mod+2 { focus-workspace 2; }
-  Mod+3 { focus-workspace 3; }
+  Super+W                 { switch-preset-column-width; }
+  Super+H                 { switch-preset-window-height; }
+  Super+T                 { toggle-window-floating; }
+  Super+M                 { maximize-column; }
+  Super+Ctrl+Left         { move-column-left; }
+  Super+Ctrl+Right        { move-column-right; }
+  Super+Ctrl+Down         { move-window-down; }
+  Super+Ctrl+Up           { move-window-up; }
+  Super+Ctrl+Home         { move-column-to-first; }
+  Super+Ctrl+End          { move-column-to-last; }
+  Super+BracketLeft       { consume-or-expel-window-left; }
+  Super+BracketRight      { consume-or-expel-window-right; }
+  Super+Comma             { consume-window-into-column; }
+  Super+Period            { expel-window-from-column; }
 
-  Mod+Shift+1 { move-window-to-workspace 1; }
-  Mod+Shift+2 { move-window-to-workspace 2; }
-  Mod+Shift+3 { move-window-to-workspace 3; }
-  Mod+Shift+4 { move-window-to-workspace 4; }
-  Mod+Shift+5 { move-window-to-workspace 5; }
-  Mod+Shift+6 { move-window-to-workspace 6; }
-  Mod+Shift+7 { move-window-to-workspace 7; }
-  Mod+Shift+8 { move-window-to-workspace 8; }
-  Mod+Shift+9 { move-window-to-workspace 9; }
+  Super+1 { focus-workspace 1; }
+  Super+2 { focus-workspace 2; }
+  Super+3 { focus-workspace 3; }
+  Super+4 { focus-workspace 4; }
+  Super+5 { focus-workspace 5; }
+  Super+Shift+1 { move-window-to-workspace 1; }
+  Super+Shift+2 { move-window-to-workspace 2; }
+  Super+Shift+3 { move-window-to-workspace 3; }
+  Super+Shift+4 { move-window-to-workspace 4; }
+  Super+Shift+5 { move-window-to-workspace 5; }
+
+  Super+Alt+L { spawn "swaylock"; }
+  Print { spawn "sh" "-c" "niri msg action screenshot | wl-copy"; }
+  Ctrl+Print { screenshot-screen; }
 
   // Backlight and Audio
   XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "+5%" ; }
@@ -267,12 +278,8 @@ binds {
   XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
 
   // Application
-  Mod+A { spawn "wofi" "--show" "drun"; }
-  Mod+Return { spawn "alacritty"; }
+  Super+A { spawn "wofi" "--show" "drun"; }
+  Super+Return { spawn "alacritty"; }
 
-  Mod+Left { focus-column-left; }
-  Mod+Right { focus-column-right; }
-  Mod+Down { focus-window-down; }
-  Mod+Up { focus-window-up; }
 
 }
