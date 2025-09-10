@@ -21,6 +21,7 @@ input {
     natural-scroll
   }
 
+
   mouse {
     // off
     // natural-scroll
@@ -48,6 +49,11 @@ input {
   // focus-follows-mouse max-scroll-amount="0%"
 }
 
+gestures {
+  hot-corners {
+    off
+  }
+}
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
@@ -63,20 +69,21 @@ output "eDP-1" {
 }
 
 // Settings that influence how windows are positioned and sized.
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Layout
 layout {
   gaps 0
 
-  center-focused-column "always"
+  center-focused-column "never" // values: "always"
+  always-center-single-column
+  empty-workspace-above-first
+  default-column-display "tabbed"
 
   preset-column-widths {
-    proportion 0.5
-    proportion 0.6
-    proportion 0.7
+    proportion 0.382
+    proportion 0.618
+    proportion 0.8
   }
 
-  default-column-width { proportion 0.5; }
+  default-column-width { proportion 0.618; }
 
   // By default focus ring and border are rendered as a solid background rectangle
   // behind windows. That is, they will show up through semitransparent windows.
@@ -175,6 +182,12 @@ spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
 spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
 spawn-at-startup "sh" "-c" "fcitx -r -d"
+spawn-at-startup "swayidle" "-w" \
+    "timeout" "600" "wlr-randr --output eDP-1 --off" \
+    "resume" "wlr-randr --output eDP-1 --on" \
+    "timeout" "900" "exec swaylock -f" \
+    "resume" "wlr-randr --output eDP-1 --on" \
+    "before-sleep" "exec swaylock -f"
 
 hotkey-overlay {
   // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -262,7 +275,8 @@ binds {
   Super+Shift+4 { move-window-to-workspace 4; }
   Super+Shift+5 { move-window-to-workspace 5; }
 
-  Super+Alt+L { spawn "swaylock"; }
+  // Super+Ctrl+L { spawn "systemctl suspend"; }
+  Super+Ctrl+L { spawn "swaylock"; }
   Print { spawn "sh" "-c" "niri msg action screenshot | wl-copy"; }
   Ctrl+Print { screenshot-screen; }
 
