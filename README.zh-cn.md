@@ -2,13 +2,10 @@
 
 [English](README.md) | [中文](README.zh-cn.md)
 
-适用于 Linux 桌面环境的共享配置文件，专注于 Sway (Wayland 合成器) 和终端工具。
+适用于 Linux 桌面环境的共享配置文件，专注于简约实用工具配置。
 
-## 包含内容
-
-- **桌面**: Sway, Waybar, Swaylock, Mako/Dunst 通知
-- **终端**: Tmux, Kitty, Alacritty, Zsh, Bash 配置
-- **应用**: Rofi, MPV, 字体配置
+> [!WARNING]
+> 这些配置文件在一些依赖，包括但不限于命令行、主题以及图片。请检查这些配置文件并自行修复。
 
 ## 使用方法
 

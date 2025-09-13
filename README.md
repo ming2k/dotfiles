@@ -4,11 +4,8 @@
 
 Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compositor) and terminal tools.
 
-## What's Included
-
-- **Desktop**: Sway, Waybar, Swaylock, Mako/Dunst notifications
-- **Terminal**: Tmux, Kitty, Alacritty, Zsh, Bash configs  
-- **Apps**: Rofi, MPV, Font configuration
+> [!WARNING]
+> These dotfiles rely on some dependencies, including but not limited to utils, theme, pictures(for wallapaer). Please checking these and fix them by self.
 
 ## How to Use `sync.sh`
 
@@ -17,7 +14,7 @@ Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compos
 # See what's available
 ./sync.sh list
 
-# Install all configurations  
+# Install all configurations
 ./sync.sh install
 
 # Install specific configs
@@ -54,7 +51,5 @@ Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compos
 Edit `sync_config.toml` to customize sync behavior, add/remove configurations, or change paths.
 
 
-> [!WARNING]
-> Maybe checking the result will encount error after you installed the config, this is because it may require some dependencies in config.
 
 

@@ -49,11 +49,6 @@ input {
   // focus-follows-mouse max-scroll-amount="0%"
 }
 
-gestures {
-  hot-corners {
-    off
-  }
-}
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
@@ -68,6 +63,21 @@ output "eDP-1" {
   backdrop-color "#001100"
 }
 
+cursor {
+    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 24
+}
+
+environment {
+    // XCURSOR_SIZE "24"
+}
+
+gestures {
+  hot-corners {
+    off
+  }
+}
+
 // Settings that influence how windows are positioned and sized.
 layout {
   gaps 0
@@ -75,15 +85,15 @@ layout {
   center-focused-column "never" // values: "always"
   always-center-single-column
   empty-workspace-above-first
-  default-column-display "tabbed"
+  default-column-display "normal" // values: "normal", "tabbed"
 
   preset-column-widths {
     proportion 0.382
     proportion 0.618
-    proportion 0.8
+    // proportion 0.7
   }
 
-  default-column-width { proportion 0.618; }
+  default-column-width { proportion 0.618; } // Make my own display browser relative width pixel more than 1080 (This width is 1090)
 
   // By default focus ring and border are rendered as a solid background rectangle
   // behind windows. That is, they will show up through semitransparent windows.
@@ -211,9 +221,11 @@ screenshot-path "~/pictures/screenshots/screenshot-%Y%m%d-%H%M%S.png"
 animations {
   // Uncomment to turn off all animations.
   // off
+  
 
   // Slow down all animations by this factor. Values below 1 speed them up instead.
   // slowdown 3.0
+
 }
 
 // Example: enable rounded corners for all windows.
@@ -229,14 +241,7 @@ binds {
   Super+Q                 { close-window; }
   Super+F                 { fullscreen-window; }
 
-  Super+Home              { focus-column-first; }
-  Super+End               { focus-column-last; }
-
   // Workspace and layout
-  Super+Left                          { focus-column-left; }
-  Super+Right                         { focus-column-right; }
-  Super+Down                          { focus-window-down; }
-  Super+Up                            { focus-window-up; }
   Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
   Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
   Mod+Shift+WheelScrollUp             { focus-column-left; }
@@ -244,41 +249,51 @@ binds {
   Mod+WheelScrollRight                { focus-column-right; }
   Mod+WheelScrollLeft                 { focus-column-left; }
 
-  Super+Shift+Left        { set-column-width "-10%"; }
-  Super+Shift+Right       { set-column-width "+10%"; }
-  Super+Shift+Up          { set-window-height "+10%"; }
-  Super+Shift+Down        { set-window-height "-10%"; }
+  Super+Left              { focus-column-left; }
+  Super+Right             { focus-column-right; }
+  Super+Down              { focus-window-down; }
+  Super+Up                { focus-window-up; }
+  Super+Home              { focus-column-first; }
+  Super+End               { focus-column-last; }
 
-  Super+W                 { switch-preset-column-width; }
-  Super+H                 { switch-preset-window-height; }
-  Super+T                 { toggle-window-floating; }
-  Super+M                 { maximize-column; }
-  Super+Ctrl+Left         { move-column-left; }
-  Super+Ctrl+Right        { move-column-right; }
-  Super+Ctrl+Down         { move-window-down; }
-  Super+Ctrl+Up           { move-window-up; }
-  Super+Ctrl+Home         { move-column-to-first; }
-  Super+Ctrl+End          { move-column-to-last; }
-  Super+BracketLeft       { consume-or-expel-window-left; }
-  Super+BracketRight      { consume-or-expel-window-right; }
-  Super+Comma             { consume-window-into-column; }
-  Super+Period            { expel-window-from-column; }
+  Super+Shift+Left        { move-column-left; }
+  Super+Shift+Right       { move-column-right; }
+  Super+Shift+Up          { move-window-up; }
+  Super+Shift+Down        { move-window-down; }
+  Super+Shift+Home        { move-column-to-first; }
+  Super+Shift+End         { move-column-to-last; }
 
   Super+1 { focus-workspace 1; }
   Super+2 { focus-workspace 2; }
   Super+3 { focus-workspace 3; }
   Super+4 { focus-workspace 4; }
   Super+5 { focus-workspace 5; }
+
   Super+Shift+1 { move-window-to-workspace 1; }
   Super+Shift+2 { move-window-to-workspace 2; }
   Super+Shift+3 { move-window-to-workspace 3; }
   Super+Shift+4 { move-window-to-workspace 4; }
   Super+Shift+5 { move-window-to-workspace 5; }
 
+  Super+Ctrl+Left        { set-column-width "-10%"; }
+  Super+Ctrl+Right       { set-column-width "+10%"; }
+  Super+Ctrl+Up          { set-window-height "+10%"; }
+  Super+Ctrl+Down        { set-window-height "-10%"; }
+
+  Super+W                 { switch-preset-column-width; }
+  Super+H                 { switch-preset-window-height; }
+  Super+T                 { toggle-window-floating; }
+  Super+M                 { maximize-column; }
+  Super+BracketLeft       { consume-or-expel-window-left; }
+  Super+BracketRight      { consume-or-expel-window-right; }
+  Super+Comma             { consume-window-into-column; }
+  Super+Period            { expel-window-from-column; }
+
   // Super+Ctrl+L { spawn "systemctl suspend"; }
-  Super+Ctrl+L { spawn "swaylock"; }
-  Print { spawn "sh" "-c" "niri msg action screenshot | wl-copy"; }
-  Ctrl+Print { screenshot-screen; }
+  Super+Ctrl+L            { spawn "swaylock"; }
+  Print                   { spawn "sh" "-c" "niri msg action screenshot | wl-copy"; }
+  Ctrl+Print              { screenshot-screen; }
+  Super+O                 { spawn "sh" "-c" "/home/ming/.config/niri/scripts/ocr.sh"; }
 
   // Backlight and Audio
   XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "+5%" ; }

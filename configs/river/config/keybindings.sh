@@ -71,8 +71,8 @@ riverctl map normal None Print spawn 'grim -g "$(slurp)" - | wl-copy'
 riverctl map normal Shift Print spawn 'grim -g "$(slurp)" ~/pictures/screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png'
 
 # OCR shortcuts
-riverctl map normal Super O spawn '$HOME/.config/river/scripts/ocr.sh -s -c'
-riverctl map normal Super+Shift O spawn '$HOME/.config/river/scripts/ocr.sh -s -c -p'
+riverctl map normal Super O spawn '$HOME/.config/river/scripts/ocr.sh'
+riverctl map normal Super+Shift O spawn '$HOME/.config/river/scripts/ocr.sh'
 
 # ------------------------------------------------------------
 # Multiple Display

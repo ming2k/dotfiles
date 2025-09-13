@@ -20,30 +20,28 @@ BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 # Function to print colored output
-print_info() { echo -e "${BLUE}ℹ${NC} $1"; }
-print_success() { echo -e "${GREEN}✓${NC} $1"; }
-print_warning() { echo -e "${YELLOW}⚠${NC} $1"; }
-print_error() { echo -e "${RED}✗${NC} $1"; }
+print_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+print_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+print_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
+print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 print_header() { echo -e "${BOLD}${CYAN}$1${NC}"; }
 
 # Function to show usage
 show_usage() {
-    print_header "🏠 Dotfiles Sync Tool"
-    echo
     echo -e "${BOLD}USAGE:${NC}"
     echo "    $0 <command> [options] [configs...]"
     echo
     echo -e "${BOLD}COMMANDS:${NC}"
-    echo -e "    ${GREEN}install${NC} [configs...]     📥 Install configurations from repo to system"
-    echo -e "    ${GREEN}backup${NC} [configs...]      📤 Backup system configurations to repo"
-    echo -e "    ${GREEN}list${NC}                     📋 List all available configurations"
-    echo -e "    ${GREEN}status${NC} [configs...]      📊 Show status of configurations"
-    echo -e "    ${GREEN}help${NC}                     ❓ Show this help message"
+    echo -e "    ${GREEN}install${NC} [configs...]     Install configurations from repo to system"
+    echo -e "    ${GREEN}backup${NC} [configs...]      Backup system configurations to repo"
+    echo -e "    ${GREEN}list${NC}                     List all available configurations"
+    echo -e "    ${GREEN}status${NC} [configs...]      Show status of configurations"
+    echo -e "    ${GREEN}help${NC}                     Show this help message"
     echo
     echo -e "${BOLD}OPTIONS:${NC}"
-    echo -e "    ${YELLOW}--dry-run${NC}               🔍 Show what would be done without executing"
-    echo -e "    ${YELLOW}--force${NC}                 💪 Overwrite existing files without prompting"
-    echo -e "    ${YELLOW}--exclude-personal${NC}      🔒 Skip files that might contain personal info"
+    echo -e "    ${YELLOW}--dry-run${NC}               Show what would be done without executing"
+    echo -e "    ${YELLOW}--force${NC}                 Overwrite existing files without prompting"
+    echo -e "    ${YELLOW}--exclude-personal${NC}      Skip files that might contain personal info"
     echo
     echo -e "${BOLD}EXAMPLES:${NC}"
     echo "    $0 install                    # Install all enabled configurations"
@@ -98,46 +96,32 @@ parse_config() {
     done < "$CONFIG_FILE"
 }
 
+# Global exclusion patterns (cached for performance)
+GLOBAL_EXCLUSIONS="--exclude=*.log --exclude=*.cache --exclude=.git/ --exclude=.svn/ --exclude=node_modules/ --exclude=__pycache__/ --exclude=*.pyc --exclude=.DS_Store --exclude=Thumbs.db --exclude=*.tmp --exclude=lazy-lock.json --exclude=.luarc.json --exclude=mason/ --exclude=.repro/ --exclude=*.sock"
+
 # Function to get exclusion patterns
 get_exclusions() {
-    local config_name="$1"
-    local exclusions=""
-    
-    # Global exclusions - more comprehensive
-    exclusions="--exclude=*.log --exclude=*.cache --exclude=.git/ --exclude=.svn/"
-    exclusions="$exclusions --exclude=node_modules/ --exclude=__pycache__/ --exclude=*.pyc"
-    exclusions="$exclusions --exclude=.DS_Store --exclude=Thumbs.db --exclude=*.tmp"
-    exclusions="$exclusions --exclude=lazy-lock.json --exclude=.luarc.json"
-    exclusions="$exclusions --exclude=mason/ --exclude=.repro/ --exclude=*.sock"
-    
-    echo "$exclusions"
+    echo "$GLOBAL_EXCLUSIONS"
 }
 
 # Function to sanitize files (remove personal info)
 sanitize_file() {
     local file="$1"
-    local temp_file="${file}.tmp"
     
     # Only sanitize specific file types
     case "$file" in
         *.lua|*.sh|*.conf|*.config|*.toml|*.css|*.js)
-            # Replace email addresses with placeholder
-            sed 's/[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/USER@DOMAIN.COM/g' "$file" > "$temp_file"
-            
-            # Replace hardcoded home paths
-            sed "s|/home/[^/]*/|/home/USER/|g" "$temp_file" > "$file"
-            
-            # Replace GitHub usernames in URLs
-            sed 's|github.com/[a-zA-Z0-9_-]*/|github.com/USERNAME/|g' "$file" > "$temp_file"
-            
-            mv "$temp_file" "$file"
+            # Use in-place editing for better performance
+            sed -i -e 's/[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/USER@DOMAIN.COM/g' \
+                   -e 's|/home/[^/]*/|/home/USER/|g' \
+                   -e 's|github.com/[a-zA-Z0-9_-]*/|github.com/USERNAME/|g' "$file"
             ;;
     esac
 }
 
 # Function to list available configurations
 list_configs() {
-    print_header "📋 Available Configurations"
+    print_header "Available Configurations"
     echo
     
     parse_config
@@ -149,9 +133,10 @@ list_configs() {
         return
     fi
     
-    # Sort configs alphabetically
-    IFS=$'\n' configs=($(sort <<<"${configs[*]}"))
-    unset IFS
+    # Sort configs alphabetically (use mapfile for better performance)
+    if command -v sort > /dev/null 2>&1; then
+        readarray -t configs < <(printf '%s\n' "${configs[@]}" | sort)
+    fi
     
     for config in "${configs[@]}"; do
         display_config_info "$config" ""
@@ -173,12 +158,12 @@ display_config_info() {
     local dest="${!dest_var:-unknown}"
     local backup_only="${!backup_only_var:-false}"
     
-    local status_icon="✓"
+    local status_icon="[ENABLED]"
     local status_color="${GREEN}"
     local backup_suffix=""
     
     if [[ "$enabled" != "true" ]]; then
-        status_icon="✗"
+        status_icon="[DISABLED]"
         status_color="${YELLOW}"
     fi
     
@@ -210,7 +195,7 @@ install_configs() {
     
     # If no configs specified, install all enabled ones (excluding backup-only)
     if [[ ${#configs[@]} -eq 0 ]]; then
-        local all_configs=($(compgen -v | grep "^CONFIG_.*_ENABLED$" | sed 's/CONFIG_//;s/_ENABLED$//'))
+        readarray -t all_configs < <(compgen -v | grep "^CONFIG_.*_ENABLED$" | sed 's/CONFIG_//;s/_ENABLED$//')
         for config in "${all_configs[@]}"; do
             local enabled_var="CONFIG_${config}_ENABLED"
             local backup_only_var="CONFIG_${config}_BACKUP_ONLY"
@@ -222,13 +207,13 @@ install_configs() {
     
     if [[ ${#configs[@]} -eq 0 ]]; then
         print_warning "No configurations found to install. Use './sync.sh list' to see available configs."
-        return
+        return 1
     fi
     
     if [[ "$dry_run" == "true" ]]; then
-        print_header "🔍 Dry Run - Installation Preview"
+        print_header "Dry Run - Installation Preview"
     else
-        print_header "📥 Installing Configurations"
+        print_header "Installing Configurations"
     fi
     echo
     
@@ -269,7 +254,7 @@ install_configs() {
         fi
         
         if [[ "$dry_run" == "true" ]]; then
-            echo "    📁 Would copy: $repo_path → $source"
+            echo "    Would copy: $repo_path → $source"
             success_count=$((success_count + 1))
             continue
         fi
@@ -277,9 +262,8 @@ install_configs() {
         # Create parent directory
         mkdir -p "$(dirname "$source")"
         
-        # Copy files with progress
-        local exclusions=$(get_exclusions "$config")
-        if rsync -av $exclusions "$repo_path/" "$source/" > /dev/null 2>&1; then
+        # Copy files with optimized rsync options
+        if rsync -av --human-readable $GLOBAL_EXCLUSIONS "$repo_path/" "$source/" > /dev/null 2>&1; then
             print_success "  Installed ${GREEN}$name${NC}"
             success_count=$((success_count + 1))
         else
@@ -294,7 +278,7 @@ install_configs() {
         print_success "Installation complete! ${success_count}/${total_count} configurations installed successfully."
         if [[ $success_count -gt 0 ]]; then
             echo
-            print_info "💡 Tip: Use './sync.sh status' to verify the installation."
+            print_info "Tip: Use './sync.sh status' to verify the installation."
         fi
     fi
 }
@@ -320,7 +304,7 @@ backup_configs() {
     
     # If no configs specified, backup all enabled ones
     if [[ ${#configs[@]} -eq 0 ]]; then
-        local all_configs=($(compgen -v | grep "^CONFIG_.*_ENABLED$" | sed 's/CONFIG_//;s/_ENABLED$//'))
+        readarray -t all_configs < <(compgen -v | grep "^CONFIG_.*_ENABLED$" | sed 's/CONFIG_//;s/_ENABLED$//')
         for config in "${all_configs[@]}"; do
             local enabled_var="CONFIG_${config}_ENABLED"
             [[ "${!enabled_var}" == "true" ]] && configs+=("$config")
@@ -329,13 +313,13 @@ backup_configs() {
     
     if [[ ${#configs[@]} -eq 0 ]]; then
         print_warning "No configurations found to backup. Use './sync.sh list' to see available configs."
-        return
+        return 1
     fi
     
     if [[ "$dry_run" == "true" ]]; then
-        print_header "🔍 Dry Run - Backup Preview"
+        print_header "Dry Run - Backup Preview"
     else
-        print_header "📤 Backing Up Configurations"
+        print_header "Backing Up Configurations"
     fi
     echo
     
@@ -368,7 +352,7 @@ backup_configs() {
         fi
         
         if [[ "$dry_run" == "true" ]]; then
-            echo "    📁 Would copy: $source → $repo_path"
+            echo "    Would copy: $source → $repo_path"
             success_count=$((success_count + 1))
             continue
         fi
@@ -376,35 +360,30 @@ backup_configs() {
         # Create destination directory
         mkdir -p "$(dirname "$repo_path")"
         
-        # Copy files
-        local exclusions=$(get_exclusions "$config")
+        # Copy files with optimized rsync
+        local success=false
         
         if [[ -d "$source" ]]; then
             mkdir -p "$repo_path"
-            if rsync -av --delete $exclusions "$source/" "$repo_path/" > /dev/null 2>&1; then
+            if rsync -av --delete --human-readable $GLOBAL_EXCLUSIONS "$source/" "$repo_path/" > /dev/null 2>&1; then
                 success=true
-            else
-                success=false
             fi
         else
-            if rsync -av $exclusions "$source" "$repo_path" > /dev/null 2>&1; then
+            if rsync -av --human-readable $GLOBAL_EXCLUSIONS "$source" "$repo_path" > /dev/null 2>&1; then
                 success=true
-            else
-                success=false
             fi
         fi
         
         if [[ "$success" == "true" ]]; then
-            # Sanitize files if requested
+            # Sanitize files if requested (optimized)
             if [[ "$exclude_personal" == "true" ]]; then
-                print_info "  🔒 Sanitizing personal information..."
-                find "$repo_path" -type f | while read file; do
-                    sanitize_file "$file"
-                done
+                print_info "  Sanitizing personal information..."
+                export -f sanitize_file
+                find "$repo_path" -type f \( -name "*.lua" -o -name "*.sh" -o -name "*.conf" -o -name "*.config" -o -name "*.toml" -o -name "*.css" -o -name "*.js" \) -exec bash -c 'sanitize_file "$1"' _ {} \;
             fi
             
             print_success "  Backed up ${GREEN}$name${NC}"
-            success_count=$((success_count + 1))
+            ((success_count++))
         else
             print_error "  Failed to backup $name"
         fi
@@ -426,10 +405,10 @@ show_status() {
     
     # If no configs specified, show all
     if [[ ${#configs[@]} -eq 0 ]]; then
-        configs=($(compgen -v | grep "^CONFIG_.*_NAME$" | sed 's/CONFIG_//;s/_NAME$//'))
+        readarray -t configs < <(compgen -v | grep "^CONFIG_.*_NAME$" | sed 's/CONFIG_//;s/_NAME$//')
     fi
     
-    print_header "📊 Configuration Status"
+    print_header "Configuration Status"
     echo
     
     for config in "${configs[@]}"; do
@@ -453,16 +432,16 @@ show_status() {
         
         # System status
         if [[ -e "$source" ]]; then
-            echo -e "  💻 System:     $source ${GREEN}[EXISTS]${NC}"
+            echo -e "  System:     $source ${GREEN}[EXISTS]${NC}"
         else
-            echo -e "  💻 System:     $source ${YELLOW}[MISSING]${NC}"
+            echo -e "  System:     $source ${YELLOW}[MISSING]${NC}"
         fi
         
         # Repository status
         if [[ -e "$repo_path" ]]; then
-            echo -e "  📁 Repository: $repo_path ${GREEN}[EXISTS]${NC}"
+            echo -e "  Repository: $repo_path ${GREEN}[EXISTS]${NC}"
         else
-            echo -e "  📁 Repository: $repo_path ${YELLOW}[MISSING]${NC}"
+            echo -e "  Repository: $repo_path ${YELLOW}[MISSING]${NC}"
         fi
         
         echo
