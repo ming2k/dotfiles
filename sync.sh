@@ -41,7 +41,6 @@ show_usage() {
     echo -e "${BOLD}OPTIONS:${NC}"
     echo -e "    ${YELLOW}--dry-run${NC}               Show what would be done without executing"
     echo -e "    ${YELLOW}--force${NC}                 Overwrite existing files without prompting"
-    echo -e "    ${YELLOW}--exclude-personal${NC}      Skip files that might contain personal info"
     echo
     echo -e "${BOLD}EXAMPLES:${NC}"
     echo "    $0 install                    # Install all enabled configurations"
@@ -104,20 +103,6 @@ get_exclusions() {
     echo "$GLOBAL_EXCLUSIONS"
 }
 
-# Function to sanitize files (remove personal info)
-sanitize_file() {
-    local file="$1"
-    
-    # Only sanitize specific file types
-    case "$file" in
-        *.lua|*.sh|*.conf|*.config|*.toml|*.css|*.js)
-            # Use in-place editing for better performance
-            sed -i -e 's/[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/USER@DOMAIN.COM/g' \
-                   -e 's|/home/[^/]*/|/home/USER/|g' \
-                   -e 's|github.com/[a-zA-Z0-9_-]*/|github.com/USERNAME/|g' "$file"
-            ;;
-    esac
-}
 
 # Function to list available configurations
 list_configs() {
@@ -287,14 +272,12 @@ install_configs() {
 backup_configs() {
     local configs=("$@")
     local dry_run=false
-    local exclude_personal=false
-    
+
     # Parse options
     local filtered_configs=()
     for arg in "${configs[@]}"; do
         case "$arg" in
             --dry-run) dry_run=true ;;
-            --exclude-personal) exclude_personal=true ;;
             *) filtered_configs+=("$arg") ;;
         esac
     done
@@ -328,13 +311,13 @@ backup_configs() {
     
     for config in "${configs[@]}"; do
         local source_var="CONFIG_${config}_SOURCE"
-        local dest_var="CONFIG_${config}_DEST" 
+        local dest_var="CONFIG_${config}_DEST"
         local name_var="CONFIG_${config}_NAME"
-        
+
         local source="${!source_var}"
         local dest="${!dest_var}"
         local name="${!name_var:-$config}"
-        
+
         if [[ -z "$source" || -z "$dest" ]]; then
             print_error "Unknown configuration: $config"
             continue
@@ -375,15 +358,8 @@ backup_configs() {
         fi
         
         if [[ "$success" == "true" ]]; then
-            # Sanitize files if requested (optimized)
-            if [[ "$exclude_personal" == "true" ]]; then
-                print_info "  Sanitizing personal information..."
-                export -f sanitize_file
-                find "$repo_path" -type f \( -name "*.lua" -o -name "*.sh" -o -name "*.conf" -o -name "*.config" -o -name "*.toml" -o -name "*.css" -o -name "*.js" \) -exec bash -c 'sanitize_file "$1"' _ {} \;
-            fi
-            
             print_success "  Backed up ${GREEN}$name${NC}"
-            ((success_count++))
+            success_count=$((success_count + 1))
         else
             print_error "  Failed to backup $name"
         fi

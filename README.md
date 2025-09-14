@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-cn.md)
 
-Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compositor) and terminal tools.
+Shareable dotfiles for Linux desktop environment.
 
 > [!WARNING]
 > These dotfiles rely on some dependencies, including but not limited to utils, theme, pictures(for wallapaer). Please checking these and fix them by self.
@@ -49,7 +49,5 @@ Shareable dotfiles for Linux desktop environment focused on Sway (Wayland compos
 ### Configuration
 
 Edit `sync_config.toml` to customize sync behavior, add/remove configurations, or change paths.
-
-
 
 

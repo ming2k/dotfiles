@@ -191,7 +191,7 @@ layout {
 spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
 spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
-spawn-at-startup "sh" "-c" "fcitx -r -d"
+spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 spawn-at-startup "swayidle" "-w" \
     "timeout" "600" "wlr-randr --output eDP-1 --off" \
     "resume" "wlr-randr --output eDP-1 --on" \
