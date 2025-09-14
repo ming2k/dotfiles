@@ -41,9 +41,6 @@ Shareable dotfiles for Linux desktop environment.
 
 # Preview what would be installed
 ./sync.sh install --dry-run
-
-# Backup with personal info sanitized
-./sync.sh backup --exclude-personal
 ```
 
 ### Configuration

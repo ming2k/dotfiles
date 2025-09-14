@@ -41,9 +41,6 @@
 
 # 预览安装内容
 ./sync.sh install --dry-run
-
-# 备份时排除个人信息
-./sync.sh backup --exclude-personal
 ```
 
 ## 配置
