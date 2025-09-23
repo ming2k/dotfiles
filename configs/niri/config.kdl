@@ -64,12 +64,11 @@ output "eDP-1" {
 }
 
 cursor {
-    xcursor-theme "Bibata-Modern-Ice"
-    xcursor-size 24
+  xcursor-theme "Bibata-Modern-Ice"
+  xcursor-size 24
 }
 
 environment {
-    // XCURSOR_SIZE "24"
 }
 
 gestures {
@@ -82,7 +81,7 @@ gestures {
 layout {
   gaps 0
 
-  center-focused-column "never" // values: "always"
+  center-focused-column "never" // values: "always", "never"
   always-center-single-column
   empty-workspace-above-first
   default-column-display "normal" // values: "normal", "tabbed"
@@ -107,7 +106,10 @@ layout {
   // `draw-border-with-background`.
 
   focus-ring {
-    width 4
+    // Disable block config
+    off
+
+    width 2
     active-color "#87AFDF"
     inactive-color "#505050"
   }
@@ -116,10 +118,9 @@ layout {
   border {
     // The settings are the same as for the focus ring.
     // If you enable the border, you probably want to disable the focus ring.
-    off
 
-    width 4
-    active-color "#ffc87f"
+    width 2
+    active-color "#87AFDF"
     inactive-color "#505050"
 
     // Color of the border around windows that request your attention.
@@ -193,11 +194,11 @@ spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/ho
 spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 spawn-at-startup "swayidle" "-w" \
-    "timeout" "600" "wlr-randr --output eDP-1 --off" \
-    "resume" "wlr-randr --output eDP-1 --on" \
-    "timeout" "900" "exec swaylock -f" \
-    "resume" "wlr-randr --output eDP-1 --on" \
-    "before-sleep" "exec swaylock -f"
+"timeout" "600" "wlr-randr --output eDP-1 --off" \
+"resume" "wlr-randr --output eDP-1 --on" \
+"timeout" "900" "exec swaylock -f" \
+"resume" "wlr-randr --output eDP-1 --on" \
+"before-sleep" "exec swaylock -f"
 
 hotkey-overlay {
   // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -221,7 +222,7 @@ screenshot-path "~/pictures/screenshots/screenshot-%Y%m%d-%H%M%S.png"
 animations {
   // Uncomment to turn off all animations.
   // off
-  
+
 
   // Slow down all animations by this factor. Values below 1 speed them up instead.
   // slowdown 3.0
@@ -312,8 +313,7 @@ binds {
   XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
 
   // Application
-  Super+A { spawn "wofi" "--show" "drun"; }
+  // Super+A { spawn "wofi" "--show" "drun"; }
+  Super+A { spawn "rofi" "-show" "drun"; }
   Super+Return { spawn "alacritty"; }
-
-
 }

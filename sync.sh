@@ -36,6 +36,7 @@ show_usage() {
     echo -e "    ${GREEN}backup${NC} [configs...]      Backup system configurations to repo"
     echo -e "    ${GREEN}list${NC}                     List all available configurations"
     echo -e "    ${GREEN}status${NC} [configs...]      Show status of configurations"
+    echo -e "    ${GREEN}rofi${NC}                     Interactive menu using rofi"
     echo -e "    ${GREEN}help${NC}                     Show this help message"
     echo
     echo -e "${BOLD}OPTIONS:${NC}"
@@ -48,6 +49,7 @@ show_usage() {
     echo "    $0 backup --dry-run          # Show what would be backed up"
     echo "    $0 list                      # List available configurations"
     echo "    $0 status                    # Check status of all configurations"
+    echo "    $0 rofi                      # Launch interactive rofi menu"
     echo
     echo -e "${BOLD}QUICK START:${NC}"
     echo -e "    1. List available configs:    ${CYAN}./sync.sh list${NC}"
@@ -424,6 +426,142 @@ show_status() {
     done
 }
 
+# Function to launch rofi interface
+rofi_menu() {
+    # Check if rofi is available
+    if ! command -v rofi > /dev/null 2>&1; then
+        print_error "rofi is not installed. Please install rofi to use this feature."
+        return 1
+    fi
+
+    parse_config
+
+    # Main menu options
+    local main_options="📋 List all configurations
+📥 Install all enabled configurations
+📤 Backup all enabled configurations
+📊 Show status of all configurations
+⚙️  Select specific configurations to install
+🔄 Select specific configurations to backup
+❓ Show help"
+
+    local choice
+    choice=$(echo -e "$main_options" | rofi -dmenu -i -p "Dotfiles Sync" -theme-str 'window {width: 50%;}')
+
+    case "$choice" in
+        *"List all configurations")
+            list_configs
+            ;;
+        *"Install all enabled configurations")
+            install_configs
+            ;;
+        *"Backup all enabled configurations")
+            backup_configs
+            ;;
+        *"Show status of all configurations")
+            show_status
+            ;;
+        *"Select specific configurations to install")
+            rofi_select_configs "install"
+            ;;
+        *"Select specific configurations to backup")
+            rofi_select_configs "backup"
+            ;;
+        *"Show help")
+            show_usage
+            ;;
+        *)
+            if [[ -n "$choice" ]]; then
+                print_error "Invalid selection"
+                return 1
+            fi
+            ;;
+    esac
+}
+
+# Function to select specific configurations via rofi
+rofi_select_configs() {
+    local action="$1"
+
+    # Get all available configurations
+    readarray -t all_configs < <(compgen -v | grep "^CONFIG_.*_NAME$" | sed 's/CONFIG_//;s/_NAME$//')
+
+    if [[ ${#all_configs[@]} -eq 0 ]]; then
+        print_warning "No configurations found in sync_config.toml"
+        return 1
+    fi
+
+    # Sort configs alphabetically
+    if command -v sort > /dev/null 2>&1; then
+        readarray -t all_configs < <(printf '%s\n' "${all_configs[@]}" | sort)
+    fi
+
+    # Build options string for rofi
+    local options=""
+    for config in "${all_configs[@]}"; do
+        local name_var="CONFIG_${config}_NAME"
+        local enabled_var="CONFIG_${config}_ENABLED"
+        local backup_only_var="CONFIG_${config}_BACKUP_ONLY"
+
+        local name="${!name_var:-$config}"
+        local enabled="${!enabled_var:-false}"
+        local backup_only="${!backup_only_var:-false}"
+
+        local status_prefix=""
+        if [[ "$enabled" == "true" ]]; then
+            if [[ "$backup_only" == "true" ]]; then
+                status_prefix="📤 "
+            else
+                status_prefix="✅ "
+            fi
+        else
+            status_prefix="❌ "
+        fi
+
+        # Skip backup-only configs for install action
+        if [[ "$action" == "install" && "$backup_only" == "true" ]]; then
+            continue
+        fi
+
+        options+="${status_prefix}${name} (${config})\n"
+    done
+
+    # Show rofi selection
+    local selected
+    selected=$(echo -e "$options" | rofi -dmenu -multi-select -i -p "Select configurations to $action" -theme-str 'window {width: 60%;}')
+
+    if [[ -z "$selected" ]]; then
+        return 0
+    fi
+
+    # Extract config names from selection
+    local selected_configs=()
+    while IFS= read -r line; do
+        if [[ -n "$line" ]]; then
+            # Extract config name from parentheses
+            local pattern='\(([^)]+)\)$'
+            if [[ "$line" =~ $pattern ]]; then
+                selected_configs+=("${BASH_REMATCH[1]}")
+            fi
+        fi
+    done <<< "$selected"
+
+    if [[ ${#selected_configs[@]} -eq 0 ]]; then
+        print_warning "No configurations selected"
+        return 0
+    fi
+
+    # Perform the action
+    case "$action" in
+        "install")
+            install_configs "${selected_configs[@]}"
+            ;;
+        "backup")
+            backup_configs "${selected_configs[@]}"
+            ;;
+    esac
+}
+
 # Main script logic
 main() {
     if [[ ! -f "$CONFIG_FILE" ]]; then
@@ -446,6 +584,9 @@ main() {
         "status")
             shift
             show_status "$@"
+            ;;
+        "rofi")
+            rofi_menu
             ;;
         "help"|"--help"|"-h"|"")
             show_usage

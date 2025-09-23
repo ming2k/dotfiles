@@ -1,0 +1,8 @@
+configuration {
+  modes: [ drun ];
+  show-icons: true;
+  font: "FiraCode Nerd Font 12";
+  sidebar-mode: true;
+}
+
+@theme "gruvbox-dark"
