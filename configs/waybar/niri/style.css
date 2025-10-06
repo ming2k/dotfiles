@@ -99,6 +99,7 @@
 
 /* -----------------------------------------------------------------------------
  * Module styles
+ * Wiki: https://github.com/Alexays/Waybar/wiki/Module:-Niri
  * -------------------------------------------------------------------------- */
 
 #battery {
@@ -116,13 +117,11 @@
 }
 
 #battery.warning.discharging {
-    animation-name: blink-warning;
-    animation-duration: 3s;
+    /* animation disabled */
 }
 
 #battery.critical.discharging {
-    animation-name: blink-critical;
-    animation-duration: 2s;
+    /* animation disabled */
 }
 
 #clock {
@@ -233,7 +232,3 @@
     background-color: #285577;
 }
 
-#workspaces button.urgent {
-    border-color: #c9545d;
-    color: #c9545d;
-}

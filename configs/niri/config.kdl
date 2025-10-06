@@ -3,15 +3,11 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-// Input device configuration.
-// Find the full list of options on the wiki:
-// https://yalter.github.io/niri/Configuration:-Input
 input {
   keyboard {
     xkb {
       layout "us"
     }
-
     repeat-delay 300
     repeat-rate 60
   }
@@ -21,40 +17,16 @@ input {
     natural-scroll
   }
 
-
-  mouse {
-    // off
-    // natural-scroll
-    // accel-speed 0.2
-    // accel-profile "flat"
-    // scroll-method "no-scroll"
-  }
-
-  trackpoint {
-    // off
-    // natural-scroll
-    // accel-speed 0.2
-    // accel-profile "flat"
-    // scroll-method "on-button-down"
-    // scroll-button 273
-    // scroll-button-lock
-    // middle-emulation
-  }
-
-  // Uncomment this to make the mouse warp to the center of newly focused windows.
-  // warp-mouse-to-focus
-
-  // Focus windows and outputs automatically when moving the mouse into them.
-  // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-  // focus-follows-mouse max-scroll-amount="0%"
+  mouse {}
+  trackpoint {}
 }
 
 output "eDP-1" {
   mode "3072x1920@120.000"
   scale 2.0
   position x=0 y=0
-  background-color "#003300"
-  backdrop-color "#001100"
+  background-color "#282828"
+  backdrop-color "#1d2021"
 }
 
 clipboard {
@@ -78,7 +50,7 @@ gestures {
 
 // Settings that influence how windows are positioned and sized.
 layout {
-  gaps 2
+  gaps 0
 
   center-focused-column "never" // values: "always", "never"
   always-center-single-column
@@ -100,21 +72,22 @@ layout {
     position "top"
     place-within-column
     hide-when-single-tab
+    active-color "#d79921"
   }
 
   focus-ring {
-    // off
+    off
     width 2
-    active-color "#87AFDF"
+    active-color "#d79921"
   }
 
   // You can also add a border. It's similar to the focus ring, but always visible.
   border {
-    off
+    // off
     width 2
-    active-color "#87AFDF"
-    inactive-color "#505050"
-    urgent-color "#9b0000"
+    active-color "#d79921"
+    inactive-color "#665c54"
+    urgent-color "#cc241d"
   }
 
 }
@@ -126,8 +99,11 @@ layout {
 
 spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
-spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
+
+// spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
+spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/intel-8086-under-microscope.jpg --resize fit"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
+
 spawn-at-startup "swayidle" "-w" \
 "timeout" "600" "wlr-randr --output eDP-1 --off" \
 "resume" "wlr-randr --output eDP-1 --on" \
@@ -174,6 +150,7 @@ animations {
 window-rule {
   match app-id="org.mozilla.firefox" title="Picture-in-Picture"
   match app-id="org.gnome.font-viewer"
+  match app-id="ffplay"
   open-floating true
 }
 
