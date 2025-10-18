@@ -6,7 +6,6 @@ set adjust-open "width"
 # Set clipboard command for Wayland
 set selection-clipboard clipboard
 
-# Optional: Also copy to primary selection
 set selection-notification true
 
 

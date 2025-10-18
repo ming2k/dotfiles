@@ -96,13 +96,15 @@ layout {
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
-
 spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
+
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
 
 // spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
-spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/intel-8086-under-microscope.jpg --resize fit"
+// spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/intel-8086-under-microscope.jpg --resize fit"
+spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/wallpapers/clouds.jpg --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
+spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 
 spawn-at-startup "swayidle" "-w" \
 "timeout" "600" "wlr-randr --output eDP-1 --off" \
@@ -131,13 +133,7 @@ screenshot-path "~/pictures/screenshots/screenshot-%Y%m%d-%H%M%S.png"
 // The wiki explains how to configure individual animations:
 // https://yalter.github.io/niri/Configuration:-Animations
 animations {
-  // Uncomment to turn off all animations.
   // off
-
-
-  // Slow down all animations by this factor. Values below 1 speed them up instead.
-  // slowdown 3.0
-
 }
 
 // Example: enable rounded corners for all windows.
@@ -148,7 +144,9 @@ animations {
   clip-to-geometry true
 }
 window-rule {
+  match app-id="kitty"
   match app-id="org.mozilla.firefox" title="Picture-in-Picture"
+  match title="Picture in picture"
   match app-id="org.gnome.font-viewer"
   match app-id="ffplay"
   open-floating true
@@ -230,4 +228,5 @@ binds {
   // Super+A { spawn "wofi" "--show" "drun"; }
   Super+A { spawn "rofi" "-show" "drun"; }
   Super+Return { spawn "alacritty"; }
+  Super+Shift+Return { spawn "kitty"; }
 }
