@@ -136,6 +136,18 @@ source = "$HOME/.config/mpv"
 dest = "mpv"
 enabled = true
 
+[configs.mpd]
+name = "Music Player Daemon"
+source = "$HOME/.config/mpd"
+dest = "mpd"
+enabled = true
+
+[configs.ncmpcpp]
+name = "NCurses MPD Client"
+source = "$HOME/.config/ncmpcpp"
+dest = "ncmpcpp"
+enabled = true
+
 [configs.fontconfig]
 name = "Font Configuration"
 source = "$HOME/.config/fontconfig"

@@ -1,0 +1,19 @@
+sw_volume: 60
+audio_device_state:1:PipeWire Output
+state: play
+current: 2
+time: 87.392
+random: 1
+repeat: 0
+single: 0
+consume: 0
+crossfade: 0
+mixrampdb: 0
+mixrampdelay: -1
+lastloadedplaylist: 
+playlist_begin
+0:罗森涛 - 我的爱没前奏.mp3
+1:周星星 - 我看过.mp3
+2:颜人中 - 晚安.flac
+3:Emily酱 - 有些 女生完整版.mp3
+playlist_end
