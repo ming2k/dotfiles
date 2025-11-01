@@ -32,6 +32,7 @@ progress-color=#4c7899
 [urgency=normal]
 border-color=#888888
 background-color=#323232
+on-notify=exec /home/ming/.config/mako/play-notification.sh normal
 
 # Warning notifications - matching waybar warning color
 [urgency=high]
@@ -39,6 +40,7 @@ border-color=#ff8800
 background-color=#323232
 text-color=#ff8800
 default-timeout=8000
+on-notify=exec /home/ming/.config/mako/play-notification.sh high
 
 # Critical notifications - matching waybar critical color
 [urgency=critical]
@@ -46,6 +48,7 @@ border-color=#ff0000
 background-color=#323232
 text-color=#ff0000
 default-timeout=0
+on-notify=exec /home/ming/.config/mako/play-notification.sh critical
 
 # Application-specific styling
 [app-name=lightcord]

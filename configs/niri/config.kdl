@@ -13,8 +13,25 @@ input {
   }
 
   touchpad {
+    // off
     tap
+    // dwt
+    // dwtp
+    // drag false
+    // drag-lock
     natural-scroll
+    // accel-speed 0.2
+    // accel-profile "flat"
+    // scroll-factor 1.0
+    // scroll-factor vertical=1.0 horizontal=-2.0
+    // scroll-method "two-finger"
+    // scroll-button 273
+    // scroll-button-lock
+    // tap-button-map "left-middle-right"
+    // click-method "clickfinger"
+    // left-handed
+    // disabled-on-external-mouse
+    // middle-emulation
   }
 
   mouse {}
@@ -89,7 +106,6 @@ layout {
     inactive-color "#665c54"
     urgent-color "#cc241d"
   }
-
 }
 
 // Add lines like this to spawn processes at startup.
@@ -102,20 +118,21 @@ spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/ho
 
 // spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
 // spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/intel-8086-under-microscope.jpg --resize fit"
-spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/wallpapers/clouds.jpg --resize crop"
+// spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/wallpapers/clouds.jpg --resize crop"
+spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/wallpapers/the-great-wave-off-kanagawa.jpg --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 
 spawn-at-startup "swayidle" "-w" \
-"timeout" "600" "wlr-randr --output eDP-1 --off" \
-"resume" "wlr-randr --output eDP-1 --on" \
+"timeout" "600" "niri msg output eDP-1 off" \
+"resume" "niri msg output eDP-1 on" \
 "timeout" "900" "exec swaylock -f" \
 "resume" "wlr-randr --output eDP-1 --on" \
 "before-sleep" "exec swaylock -f"
 
 hotkey-overlay {
   // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-  // skip-at-startup
+  skip-at-startup
 }
 
 // Dsiable Client-Side Decorations
@@ -133,7 +150,12 @@ screenshot-path "~/pictures/screenshots/screenshot-%Y%m%d-%H%M%S.png"
 // The wiki explains how to configure individual animations:
 // https://yalter.github.io/niri/Configuration:-Animations
 animations {
+  // Uncomment to turn off all animations.
+  // You can also put "off" into each individual animation to disable it.
   // off
+
+  // Slow down all animations by this factor. Values below 1 speed them up instead.
+  slowdown 0.8
 }
 
 // Example: enable rounded corners for all windows.
@@ -143,6 +165,7 @@ animations {
   geometry-corner-radius 12
   clip-to-geometry true
 }
+
 window-rule {
   match app-id="kitty"
   match app-id="org.mozilla.firefox" title="Picture-in-Picture"
@@ -228,5 +251,6 @@ binds {
   // Super+A { spawn "wofi" "--show" "drun"; }
   Super+A { spawn "rofi" "-show" "drun"; }
   Super+Return { spawn "alacritty"; }
-  Super+Shift+Return { spawn "kitty"; }
+  // Super+Shift+Return { spawn "kitty"; }
 }
+
