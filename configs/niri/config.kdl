@@ -172,7 +172,14 @@ window-rule {
   match title="Picture in picture"
   match app-id="org.gnome.font-viewer"
   match app-id="ffplay"
+  match app-id="org.prismlauncher.PrismLauncher" title="Console window for*"
   open-floating true
+}
+
+window-rule {
+  match app-id="org.mozilla.firefox"
+  match app-id="org.chromium.Chromium"
+  open-maximized true
 }
 
 binds {
