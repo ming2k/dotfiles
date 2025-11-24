@@ -112,7 +112,9 @@ layout {
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
-spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
+
+// `niri --session` or `niri-session` has configured this
+// spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
 
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
 
