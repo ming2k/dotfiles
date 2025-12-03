@@ -1,7 +1,16 @@
 configuration {
-  modes: [ drun ];
+  modi: "drun,run,window";            // common modes: app launcher, command, window switcher
   show-icons: true;
+  icon-theme: "Papirus-Dark";
   font: "FiraCode Nerd Font 12";
+  terminal: "alacritty";
+  drun-display-format: "{name}";
+  display-drun: "Apps";
+  display-run: "Run";
+  display-window: "Windows";
+  matching: "fuzzy";
+  cycle: true;
+  case-sensitive: false;
   sidebar-mode: true;
 }
 
