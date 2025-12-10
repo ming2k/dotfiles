@@ -118,10 +118,9 @@ layout {
 
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
 
-// spawn-at-startup "sh" "-c" "swww-daemon & swww img /home/ming/pictures/wallpapers/astronomy.png"
-// spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/intel-8086-under-microscope.jpg --resize fit"
-// spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/wallpapers/clouds.jpg --resize crop"
-spawn-at-startup "sh" "-c" "swww-daemon & swww img ~/pictures/wallpapers/the-great-wave-off-kanagawa.jpg --resize crop"
+// spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/intel-8086-under-microscope.jpg' --resize fit"
+// spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/wallpapers/the-great-wave-off-kanagawa.jpg' --resize crop"
+spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/wallpapers/Claude Monet - Water Lilies - 1906, Ryerson.jpg' --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 

@@ -8,7 +8,7 @@ configuration {
   display-drun: "Apps";
   display-run: "Run";
   display-window: "Windows";
-  matching: "fuzzy";
+  // matching: "fuzzy";
   cycle: true;
   case-sensitive: false;
   sidebar-mode: true;

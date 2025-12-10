@@ -130,6 +130,12 @@ source = "$HOME/.config/rofi"
 dest = "rofi"
 enabled = true
 
+[configs.yazi]
+name = "Yazi Terminal File Manager"
+source = "$HOME/.config/yazi"
+dest = "yazi"
+enabled = true
+
 [configs.mpv]
 name = "MPV Media Player"
 source = "$HOME/.config/mpv"
