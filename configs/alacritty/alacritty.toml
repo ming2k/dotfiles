@@ -22,3 +22,6 @@ size = 11
 key = "N"
 mods = "Control|Shift"
 action = "SpawnNewInstance"
+
+[bell]
+command = { program = "paplay", args = ["/home/ming/media/notification-sounds/wooden-fish.mp3"] }

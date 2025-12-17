@@ -232,3 +232,8 @@
     background-color: #285577;
 }
 
+#workspaces button.urgent {
+    border-color: #c9545d;
+    color: #c9545d;
+}
+
