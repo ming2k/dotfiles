@@ -8,7 +8,8 @@
         "sway/window"
     ],
     "modules-center": [
-        "clock#time"
+        "clock#time",
+        "privacy"
     ],
     "modules-right": [
         "tray",
@@ -138,5 +139,27 @@
             "activated": "󰅶",
             "deactivated": "󰾪"
         }
+    },
+
+    "privacy": {
+        "icon-spacing": 2,
+        "icon-size": 12,
+        "transition-duration": 250,
+        "modules": [
+            {
+                "type": "screenshare",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            },
+            {
+                "type": "audio-in",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            }
+        ]
+    },
+
+    "privacy-item": {
+        "format": "{icon}"
     }
 }

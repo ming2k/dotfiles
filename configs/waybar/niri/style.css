@@ -91,7 +91,8 @@
 #network,
 #pulseaudio,
 #temperature,
-#tray {
+#tray,
+#privacy {
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -235,5 +236,31 @@
 #workspaces button.urgent {
     border-color: #c9545d;
     color: #c9545d;
+}
+
+/* Privacy module - Zen style */
+#privacy {
+    padding-left: 0px;
+    padding-right: 10px;
+    font-size: 6px;
+}
+
+#privacy-item {
+    padding: 0 2px;
+}
+
+/* Screenshare - use screen icon or dot */
+#privacy-item.screenshare {
+    color: white;
+}
+
+/* Microphone - audio input */
+#privacy-item.audio-in {
+    color: white;
+}
+
+/* Audio output */
+#privacy-item.audio-out {
+    color: white;
 }
 
