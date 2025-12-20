@@ -1,5 +1,5 @@
-To fit with different compositors,
+To fit with different compositors:
 
 ```sh
-waybar -c $HOME/.config/waybar/<dir>/config
+waybar -c ~/.config/waybar/<wayland_conpisitor>/config -s ~/.config/waybar/<wayland_conpisitor>/style.css
 ```
