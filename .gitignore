@@ -3,8 +3,20 @@
 
 /tmp/
 
-# AI
+# AI Configuration and Context Files
 CLAUDE.md
+AGENTS.md
 .claude/
+.cursor/
+.aider*
+.gpteng/
+.copilot/
+IMPLEMENTATION_SUMMARY.md
+PLAN.md
+AI_CONTEXT.md
+.ai/
 
 .projectile
+
+# Config git directories
+configs/**/.git/
