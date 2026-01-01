@@ -108,28 +108,43 @@ layout {
   }
 }
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
+// Core D-Bus Environment
+// This is the most critical line. It tells D-Bus where your window is.
+// Without this, portals (file pickers, screen sharing) will fail.
+spawn-at-startup "dbus-update-activation-environment" "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE"
 
-// `niri --session` or `niri-session` has configured this
-// spawn-at-startup "sh" "-c" "dbus-update-activation-environment --systemd DISPLAY XDG_CURRENT_DESKTOP WAYLAND_DISPLAY"
+// Portals
+// OPTIMIZATION: Do NOT manually spawn /usr/libexec/xdg-desktop-portal-*.
+// D-Bus will automatically launch the correct portal
+// when an app (like Firefox) asks for it. 
+// Manually spawning them often creates "zombie" processes or conflicts.
+
+// Audio
+// Since you don't use a service manager for user apps,
+// spawning these here is the correct "Void way".
+spawn-at-startup "pipewire"
+spawn-at-startup "pipewire-pulse"
+// Wait for PipeWire to be ready before starting WirePlumber
+spawn-at-startup "sh" "-c" "sleep 1 && wireplumber"
 
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
-
+spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/media/wallpapers/reze.jpg\" --resize crop"
 // spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/intel-8086-under-microscope.jpg' --resize fit"
 // spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/wallpapers/the-great-wave-off-kanagawa.jpg' --resize crop"
-spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/wallpapers/Claude Monet - Water Lilies - 1906, Ryerson.jpg' --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
-spawn-at-startup "systemctl" "--user" "start" "emacs.service"
+// spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 
 spawn-at-startup "swayidle" "-w" \
-"timeout" "600" "niri msg output eDP-1 off" \
-"resume" "niri msg output eDP-1 on" \
-"timeout" "900" "exec swaylock -f" \
-"resume" "wlr-randr --output eDP-1 --on" \
-"before-sleep" "exec swaylock -f"
+  "timeout" "600" "niri msg output eDP-1 off" \
+  "resume" "niri msg output eDP-1 on" \
+  "timeout" "900" "exec swaylock -f" \
+  "resume" "wlr-randr --output eDP-1 --on" \
+  "before-sleep" "exec swaylock -f"
+
+spawn-at-startup "emacs" "--daemon"
+// Music Player Daemon
+spawn-at-startup "mpd"
+
 
 hotkey-overlay {
   // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -192,12 +207,12 @@ binds {
   Super+Shift+F           { fullscreen-window; }
 
   // Workspace and layout
-  Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
-  Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
-  Mod+Shift+WheelScrollUp             { focus-column-left; }
-  Mod+Shift+WheelScrollDown           { focus-column-right; }
-  Mod+WheelScrollRight                { focus-column-right; }
-  Mod+WheelScrollLeft                 { focus-column-left; }
+  Super+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+  Super+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
+  Super+Shift+WheelScrollUp             { focus-column-left; }
+  Super+Shift+WheelScrollDown           { focus-column-right; }
+  Super+WheelScrollRight                { focus-column-right; }
+  Super+WheelScrollLeft                 { focus-column-left; }
 
   Super+Left              { focus-column-left; }
   Super+Right             { focus-column-right; }
@@ -257,7 +272,7 @@ binds {
 
   // Application
   // Super+A { spawn "wofi" "--show" "drun"; }
-  Super+A { spawn "rofi" "-show" "drun"; }
+  Super+Space { spawn "rofi" "-show" "drun"; }
   Super+Return { spawn "alacritty"; }
   // Super+Shift+Return { spawn "kitty"; }
 }
