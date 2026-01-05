@@ -127,10 +127,9 @@ spawn-at-startup "pipewire-pulse"
 // Wait for PipeWire to be ready before starting WirePlumber
 spawn-at-startup "sh" "-c" "sleep 1 && wireplumber"
 
+spawn-at-startup "mako"
 spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
-spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/media/wallpapers/reze.jpg\" --resize crop"
-// spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/intel-8086-under-microscope.jpg' --resize fit"
-// spawn-at-startup "sh" "-c" "swww-daemon & swww img '$HOME/pictures/wallpapers/the-great-wave-off-kanagawa.jpg' --resize crop"
+spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/screenshots/screenshot-20260106-025049.png\" --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 // spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 
@@ -183,7 +182,7 @@ animations {
 }
 
 window-rule {
-  match app-id="kitty"
+  // match app-id="kitty"
   match app-id="org.mozilla.firefox" title="Picture-in-Picture"
   match title="Picture in picture"
   match app-id="org.gnome.font-viewer"
@@ -271,9 +270,7 @@ binds {
   XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
 
   // Application
-  // Super+A { spawn "wofi" "--show" "drun"; }
   Super+Space { spawn "rofi" "-show" "drun"; }
-  Super+Return { spawn "alacritty"; }
-  // Super+Shift+Return { spawn "kitty"; }
+  Super+Return { spawn "foot"; }
 }
 

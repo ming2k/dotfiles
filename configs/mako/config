@@ -2,86 +2,86 @@
 #   man 5 mako
 # To view all configuration options.
 
-# Font matching waybar style
-font=Cantarell 13
-format=<b>%a ⏵</b> %s\n%b
+# Font - gruvbox aesthetic with distinct title/content sizes
+font=Cantarell 11
+format=<b><big>%s</big></b> <i>from</i> <b><i>%a</i></b>\n%b
 sort=-time
 output=DP-2
 layer=overlay
 anchor=top-center
 
-# Color scheme matching waybar's dark theme
-background-color=#323232
-text-color=#ffffff
-width=320
+# Gruvbox dark color scheme
+background-color=#282828
+text-color=#ebdbb2
+width=280
 height=100
 margin=8
-padding=10
+padding=6,12
 border-size=2
 border-radius=2
-border-color=#888888
+border-color=#504945
 icons=1
 max-icon-size=48
 default-timeout=5000
 ignore-timeout=1
 
-# Progress bar styling to match waybar aesthetics
-progress-color=#4c7899
+# Progress bar - gruvbox blue
+progress-color=#83a598
 
-# Normal notifications - subtle styling
+# Normal notifications - gruvbox neutral
 [urgency=normal]
-border-color=#888888
-background-color=#323232
+border-color=#504945
+background-color=#282828
 on-notify=exec /home/ming/.config/mako/play-notification.sh normal
 
-# Warning notifications - matching waybar warning color
+# Warning notifications - gruvbox orange
 [urgency=high]
-border-color=#ff8800
-background-color=#323232
-text-color=#ff8800
+border-color=#fe8019
+background-color=#282828
+text-color=#fe8019
 default-timeout=8000
 on-notify=exec /home/ming/.config/mako/play-notification.sh high
 
-# Critical notifications - matching waybar critical color
+# Critical notifications - gruvbox red
 [urgency=critical]
-border-color=#ff0000
-background-color=#323232
-text-color=#ff0000
+border-color=#fb4934
+background-color=#282828
+text-color=#fb4934
 default-timeout=0
 on-notify=exec /home/ming/.config/mako/play-notification.sh critical
 
 # Application-specific styling
 [app-name=lightcord]
-border-color=#4c7899
-background-color=#285577
+border-color=#83a598
+background-color=#3c3836
 
-# Log notifications - using a muted approach
+# Log notifications - gruvbox muted gray
 [summary~="log-.*"]
-border-color=#64727D
-text-color=#888888
+border-color=#665c54
+text-color=#928374
 
 # Hide specific notification patterns
 [app-name=lightcord summary~="(.*(^| )orz|ORZ|sto|STO|otl|OTL( |$).*)"]
 invisible=1
 
-# Battery notifications matching waybar battery module
+# Battery notifications - gruvbox yellow/orange
 [app-name=battery]
-border-color=#ff8800
+border-color=#fabd2f
 
 [app-name=battery urgency=critical]
-border-color=#ff0000
+border-color=#fb4934
 
-# Network notifications
+# Network notifications - gruvbox aqua
 [app-name=NetworkManager]
-border-color=#888888
+border-color=#8ec07c
 
 [app-name=NetworkManager summary~=".*disconnected.*"]
-border-color=#ff8800
+border-color=#fe8019
 
-# Volume notifications
+# Volume notifications - gruvbox purple
 [app-name=pulseaudio]
-border-color=#888888
+border-color=#d3869b
 
-# System notifications
+# System notifications - gruvbox gray
 [app-name=systemd]
-border-color=#64727D
+border-color=#928374
