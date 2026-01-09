@@ -1,0 +1,2 @@
+module Modules.Notifications
+NotificationManager 1.0 NotificationManager.qml

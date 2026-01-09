@@ -1,0 +1,10 @@
+module Modules.HUDBar.Widgets
+Audio 1.0 Audio.qml
+Battery 1.0 Battery.qml
+Clock 1.0 Clock.qml
+Cpu 1.0 Cpu.qml
+Memory 1.0 Memory.qml
+Network 1.0 Network.qml
+WindowTitle 1.0 WindowTitle.qml
+Workspaces 1.0 Workspaces.qml
+SystemTray 1.0 SystemTray.qml

@@ -1,0 +1,3 @@
+module Modules
+HUDBar 1.0 HUDBar/HUDBar.qml
+NotificationManager 1.0 Notifications/NotificationManager.qml

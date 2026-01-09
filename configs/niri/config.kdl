@@ -57,6 +57,35 @@ cursor {
 }
 
 environment {
+  // Desktop environment identification
+  XDG_CURRENT_DESKTOP "niri"
+  XDG_SESSION_TYPE "wayland"
+
+  // D-Bus session bus
+  DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/1000/bus"
+
+  // Wayland display (if not auto-set)
+  // WAYLAND_DISPLAY "wayland-1"
+
+  // Qt Wayland support
+  QT_QPA_PLATFORM "wayland"
+  QT_QPA_PLATFORMTHEME "qt6ct"
+  QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+
+  // GTK Wayland support
+  GDK_BACKEND "wayland"
+
+  // Mozilla/Firefox Wayland support
+  MOZ_ENABLE_WAYLAND "1"
+
+  // Electron apps Wayland support
+  ELECTRON_OZONE_PLATFORM_HINT "wayland"
+
+  // SDL Wayland support
+  SDL_VIDEODRIVER "wayland"
+
+  // Java applications
+  _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
 gestures {
@@ -111,7 +140,7 @@ layout {
 // Core D-Bus Environment
 // This is the most critical line. It tells D-Bus where your window is.
 // Without this, portals (file pickers, screen sharing) will fail.
-spawn-at-startup "dbus-update-activation-environment" "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE"
+spawn-at-startup "dbus-update-activation-environment" "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "QT_QPA_PLATFORM" "QT_QPA_PLATFORMTHEME" "GDK_BACKEND" "MOZ_ENABLE_WAYLAND"
 
 // Portals
 // OPTIMIZATION: Do NOT manually spawn /usr/libexec/xdg-desktop-portal-*.
@@ -127,8 +156,10 @@ spawn-at-startup "pipewire-pulse"
 // Wait for PipeWire to be ready before starting WirePlumber
 spawn-at-startup "sh" "-c" "sleep 1 && wireplumber"
 
-spawn-at-startup "mako"
-spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
+// spawn-at-startup "mako"
+// spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
+spawn-at-startup "quickshell"
+
 spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/screenshots/screenshot-20260106-025049.png\" --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 // spawn-at-startup "systemctl" "--user" "start" "emacs.service"

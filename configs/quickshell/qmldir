@@ -1,0 +1,12 @@
+singleton Colors 1.0 Colors.qml
+Bar 1.0 Bar.qml
+Workspaces 1.0 Workspaces.qml
+WindowTitle 1.0 WindowTitle.qml
+Clock 1.0 Clock.qml
+SystemTray 1.0 SystemTray.qml
+Audio 1.0 Audio.qml
+Memory 1.0 Memory.qml
+Cpu 1.0 Cpu.qml
+Network 1.0 Network.qml
+Battery 1.0 Battery.qml
+Icon 1.0 Icon.qml
