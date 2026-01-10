@@ -61,15 +61,9 @@ environment {
   XDG_CURRENT_DESKTOP "niri"
   XDG_SESSION_TYPE "wayland"
 
-  // D-Bus session bus
-  DBUS_SESSION_BUS_ADDRESS "unix:path=/run/user/1000/bus"
-
-  // Wayland display (if not auto-set)
-  // WAYLAND_DISPLAY "wayland-1"
-
   // Qt Wayland support
   QT_QPA_PLATFORM "wayland"
-  QT_QPA_PLATFORMTHEME "qt6ct"
+  QT_QPA_PLATFORMTHEME "gtk3"
   QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
 
   // GTK Wayland support
@@ -83,9 +77,6 @@ environment {
 
   // SDL Wayland support
   SDL_VIDEODRIVER "wayland"
-
-  // Java applications
-  _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
 gestures {
