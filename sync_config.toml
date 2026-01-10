@@ -67,12 +67,6 @@ source = "$HOME/.config/niri"
 dest = "niri"
 enabled = true
 
-[configs.quickshell]
-name = "Quickshell"
-source = "$HOME/.config/quickshell"
-dest = "quickshell"
-enabled = true
-
 [configs.waybar]
 name = "Waybar Status Bar"
 source = "$HOME/.config/waybar"

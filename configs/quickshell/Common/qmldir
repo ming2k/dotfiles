@@ -1,3 +1,0 @@
-module Common
-singleton Colors 1.0 Colors.qml
-Icon 1.0 Icon.qml

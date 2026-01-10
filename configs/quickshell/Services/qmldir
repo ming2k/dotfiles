@@ -1,3 +1,0 @@
-module Services
-singleton AudioService 1.0 AudioService.qml
-singleton NetworkService 1.0 NetworkService.qml

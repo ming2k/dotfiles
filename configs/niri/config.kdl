@@ -163,8 +163,9 @@ spawn-at-startup "swayidle" "-w" \
   "before-sleep" "exec swaylock -f"
 
 spawn-at-startup "emacs" "--daemon"
+
 // Music Player Daemon
-spawn-at-startup "mpd"
+// spawn-at-startup "mpd"
 
 
 hotkey-overlay {
@@ -292,7 +293,7 @@ binds {
   XF86AudioPrev         allow-when-locked=true { spawn "playerctl" "previous"; }
 
   // Application
-  Super+Space { spawn "rofi" "-show" "drun"; }
+  Super+Space { spawn "sh" "-c" "echo toggle > /tmp/quickshell-summon.fifo"; }
   Super+Return { spawn "foot"; }
 }
 
