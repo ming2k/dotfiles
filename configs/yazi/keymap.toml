@@ -1,0 +1,4 @@
+[[mgr.prepend_keymap]]
+on   = [ "g", "d" ]
+run  = "cd /home/ming/downloads"
+desc = "Go to the downloads directory"

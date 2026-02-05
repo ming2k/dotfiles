@@ -1,0 +1,55 @@
+# Starship config - matching original bash PS1 style
+# Format: user@host:~/path (branch) HH:MM:SS\n$
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$time
+$status\
+$character"""
+
+# No newline at start
+add_newline = false
+
+[username]
+style_user = "bold green"
+style_root = "bold red"
+format = "[$user]($style)"
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[@$hostname](bold green):"
+disabled = false
+
+[directory]
+style = "bold blue"
+format = "[$path]($style)"
+truncation_length = 0
+truncate_to_repo = false
+
+[git_branch]
+style = "yellow"
+format = " [$branch]($style)"
+
+[git_status]
+style = "yellow"
+format = "[$all_status$ahead_behind]($style)"
+
+[time]
+disabled = false
+style = "bright-black"
+format = " [$time]($style)"
+time_format = "%H:%M:%S"
+
+[status]
+disabled = false
+format = "[\\[$status\\]](bold red) "
+
+[character]
+success_symbol = "[\\$](bold green)"
+error_symbol = "[\\$](bold red)"
+# vicmd_symbol = "[\\$](bold yellow)"

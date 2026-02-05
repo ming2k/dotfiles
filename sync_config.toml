@@ -123,6 +123,12 @@ source = "$HOME/.config/zsh"
 dest = "zsh"
 enabled = true
 
+[configs.starship]
+name = "Starship Prompt"
+source = "$HOME/.config/starship.toml"
+dest = "starship/starship.toml"
+enabled = true
+
 # Applications
 [configs.rofi]
 name = "Rofi Application Launcher"

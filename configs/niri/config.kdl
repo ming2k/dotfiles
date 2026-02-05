@@ -152,7 +152,7 @@ spawn-at-startup "sh" "-c" "sleep 1 && wireplumber"
 spawn-at-startup "quickshell"
 
 // spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/screenshots/screenshot-20260106-025049.png\" --resize crop"
-spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/media/wallpapers/wallhaven-yq5ejd.png\" --resize crop"
+spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/wallpapers/wallhaven-yq5ejd.png \" --resize crop"
 spawn-at-startup "sh" "-c" "fcitx5 -r -d"
 // spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 

@@ -20,16 +20,23 @@ sleep 0.1
 # Capture a screenshot of the user-selected region
 grim -g "$(slurp)" "$TEMP_FILE"
 
-# Run RapidOCR on the screenshot and pipe extracted text to clipboard.
+# Run RapidOCR on the screenshot and capture extracted text.
 # RapidOCR returns a list of [bbox, text, confidence] per detected line;
 # we join all text fields with newlines.
-"$RAPIDOCR_PYTHON" -c "
+OCR_TEXT=$("$RAPIDOCR_PYTHON" -c "
 from rapidocr_onnxruntime import RapidOCR
 engine = RapidOCR()
 result, _ = engine('$TEMP_FILE')
 if result:
     print('\n'.join(line[1] for line in result))
-" | wl-copy
+")
 
 rm -f "$TEMP_FILE"
+
+if [ -n "$OCR_TEXT" ]; then
+    echo "$OCR_TEXT" | wl-copy
+    notify-send "OCR" "$OCR_TEXT"
+else
+    notify-send "OCR" "No text detected"
+fi
 
