@@ -38,10 +38,22 @@ input {
   trackpoint {}
 }
 
+// External monitor (left) - 1080p, scale 1, bottom-aligned with laptop
+// If your monitor uses DisplayPort, change "HDMI-A-1" to "DP-1" (or DP-2, etc.)
+// Run `niri msg outputs` with the monitor plugged in to verify the name.
+output "HDMI-A-1" {
+  mode "1920x1080"
+  scale 1.0
+  position x=0 y=0
+  background-color "#282828"
+  backdrop-color "#1d2021"
+}
+
+// Laptop display (right), bottom-aligned: y = 1080 - 960 = 120
 output "eDP-1" {
   mode "3072x1920@120.000"
   scale 2.0
-  position x=0 y=0
+  position x=1920 y=120
   background-color "#282828"
   backdrop-color "#1d2021"
 }
@@ -142,30 +154,34 @@ spawn-at-startup "dbus-update-activation-environment" "DISPLAY" "WAYLAND_DISPLAY
 // Audio
 // Since you don't use a service manager for user apps,
 // spawning these here is the correct "Void way".
-spawn-at-startup "pipewire"
-spawn-at-startup "pipewire-pulse"
+// Kill stale processes before starting to allow re-login.
+spawn-at-startup "sh" "-c" "pkill -x pipewire; exec pipewire"
+spawn-at-startup "sh" "-c" "pkill -x pipewire-pulse; exec pipewire-pulse"
 // Wait for PipeWire to be ready before starting WirePlumber
-spawn-at-startup "sh" "-c" "sleep 1 && wireplumber"
+spawn-at-startup "sh" "-c" "pkill -x wireplumber; sleep 1 && exec wireplumber"
 
 // spawn-at-startup "mako"
 // spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
-spawn-at-startup "quickshell"
+spawn-at-startup "sh" "-c" "pkill -x quickshell; exec quickshell"
 
 // spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/screenshots/screenshot-20260106-025049.png\" --resize crop"
-spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/wallpapers/wallhaven-yq5ejd.png \" --resize crop"
-spawn-at-startup "sh" "-c" "fcitx5 -r -d"
+spawn-at-startup "sh" "-c" "pkill -x swww-daemon; swww-daemon && swww img \"$HOME/pictures/wallpapers/wallhaven-yq5ejd.png \" --resize crop"
+spawn-at-startup "sh" "-c" "pkill -x fcitx5; exec fcitx5 -r -d"
 // spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 
-spawn-at-startup "swayidle" "-w" \
-  "timeout" "600" "niri msg output eDP-1 off" \
-  "resume" "niri msg output eDP-1 on" \
-  "timeout" "900" "exec swaylock -f" \
-  "resume" "wlr-randr --output eDP-1 --on" \
-  "before-sleep" "exec swaylock -f"
+spawn-at-startup "sh" "-c" r#"\
+  pkill -x swayidle; exec swayidle -w \
+    timeout 570 'brightnessctl -s set 10' \
+        resume 'brightnessctl -r' \
+    timeout 600 'swaylock -f' \
+    timeout 605 'niri msg output eDP-1 off; niri msg output HDMI-A-1 off' \
+        resume 'niri msg output eDP-1 on; niri msg output HDMI-A-1 on' \
+    before-sleep 'swaylock -f' \
+  "#
 
-spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
+spawn-at-startup "sh" "-c" "pkill -x gnome-keyring-daemon; exec gnome-keyring-daemon --start --components=secrets"
 
-spawn-at-startup "emacs" "--daemon"
+spawn-at-startup "sh" "-c" "pkill -x emacs; exec emacs --daemon"
 
 // Music Player Daemon
 // spawn-at-startup "mpd"
@@ -270,6 +286,14 @@ binds {
   Super+Ctrl+Right       { set-column-width "+10%"; }
   Super+Ctrl+Up          { set-window-height "+10%"; }
   Super+Ctrl+Down        { set-window-height "-10%"; }
+
+  // Monitor navigation (dual monitor)
+  Super+Alt+Left          { focus-monitor-left; }
+  Super+Alt+Right         { focus-monitor-right; }
+  Super+Shift+Alt+Left    { move-column-to-monitor-left; }
+  Super+Shift+Alt+Right   { move-column-to-monitor-right; }
+  Super+Shift+Ctrl+Left   { move-workspace-to-monitor-left; }
+  Super+Shift+Ctrl+Right  { move-workspace-to-monitor-right; }
 
   Super+W                 { switch-preset-column-width; }
   Super+H                 { switch-preset-window-height; }
