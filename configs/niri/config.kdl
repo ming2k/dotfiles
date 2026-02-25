@@ -38,22 +38,23 @@ input {
   trackpoint {}
 }
 
-// External monitor (left) - 1080p, scale 1, bottom-aligned with laptop
-// If your monitor uses DisplayPort, change "HDMI-A-1" to "DP-1" (or DP-2, etc.)
-// Run `niri msg outputs` with the monitor plugged in to verify the name.
-output "HDMI-A-1" {
-  mode "1920x1080"
-  scale 1.0
-  position x=0 y=0
+// Laptop display (left), bottom-aligned: y = 1080 - 960 = 120
+output "eDP-1" {
+  // mode "3072x1920@60.001"
+  mode "3072x1920@120.000"
+  scale 2.0
+  position x=0 y=120
   background-color "#282828"
   backdrop-color "#1d2021"
 }
 
-// Laptop display (right), bottom-aligned: y = 1080 - 960 = 120
-output "eDP-1" {
-  mode "3072x1920@120.000"
-  scale 2.0
-  position x=1920 y=120
+// External monitor (right) - 1080p, scale 1
+// If your monitor uses DisplayPort, change "HDMI-A-1" to "DP-1" (or DP-2, etc.)
+// Run `niri msg outputs` with the monitor plugged in to verify the name.
+output "HDMI-A-1" {
+  mode "1920x1080@74.986"
+  scale 1.0
+  position x=1536 y=0
   background-color "#282828"
   backdrop-color "#1d2021"
 }
@@ -155,10 +156,10 @@ spawn-at-startup "dbus-update-activation-environment" "DISPLAY" "WAYLAND_DISPLAY
 // Since you don't use a service manager for user apps,
 // spawning these here is the correct "Void way".
 // Kill stale processes before starting to allow re-login.
-spawn-at-startup "sh" "-c" "pkill -x pipewire; exec pipewire"
-spawn-at-startup "sh" "-c" "pkill -x pipewire-pulse; exec pipewire-pulse"
+// spawn-at-startup "sh" "-c" "pkill -x pipewire; exec pipewire"
+// spawn-at-startup "sh" "-c" "pkill -x pipewire-pulse; exec pipewire-pulse"
 // Wait for PipeWire to be ready before starting WirePlumber
-spawn-at-startup "sh" "-c" "pkill -x wireplumber; sleep 1 && exec wireplumber"
+// spawn-at-startup "sh" "-c" "pkill -x wireplumber; sleep 1 && exec wireplumber"
 
 // spawn-at-startup "mako"
 // spawn-at-startup "waybar" "-c" "/home/ming/.config/waybar/niri/config" "-s" "/home/ming/.config/waybar/niri/style.css"
@@ -167,7 +168,6 @@ spawn-at-startup "sh" "-c" "pkill -x quickshell; exec quickshell"
 // spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/screenshots/screenshot-20260106-025049.png\" --resize crop"
 spawn-at-startup "sh" "-c" "pkill -x swww-daemon; swww-daemon && swww img \"$HOME/pictures/wallpapers/wallhaven-yq5ejd.png \" --resize crop"
 spawn-at-startup "sh" "-c" "pkill -x fcitx5; exec fcitx5 -r -d"
-// spawn-at-startup "systemctl" "--user" "start" "emacs.service"
 
 spawn-at-startup "sh" "-c" r#"\
   pkill -x swayidle; exec swayidle -w \
@@ -181,7 +181,8 @@ spawn-at-startup "sh" "-c" r#"\
 
 spawn-at-startup "sh" "-c" "pkill -x gnome-keyring-daemon; exec gnome-keyring-daemon --start --components=secrets"
 
-spawn-at-startup "sh" "-c" "pkill -x emacs; exec emacs --daemon"
+// spawn-at-startup "systemctl" "--user" "start" "emacs.service"
+// spawn-at-startup "sh" "-c" "pkill -x emacs; exec emacs --daemon"
 
 // Music Player Daemon
 // spawn-at-startup "mpd"
@@ -281,6 +282,9 @@ binds {
   Super+Shift+3 { move-window-to-workspace 3; }
   Super+Shift+4 { move-window-to-workspace 4; }
   Super+Shift+5 { move-window-to-workspace 5; }
+
+  Super+Shift+Page_Down { move-window-to-workspace-down; }
+  Super+Shift+Page_Up   { move-window-to-workspace-up; }
 
   Super+Ctrl+Left        { set-column-width "-10%"; }
   Super+Ctrl+Right       { set-column-width "+10%"; }
