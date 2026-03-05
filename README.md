@@ -7,6 +7,21 @@ Shareable dotfiles for Linux desktop environment.
 > [!WARNING]
 > These dotfiles rely on some dependencies, including but not limited to utils, theme, pictures(for wallapaer). Please checking these and fix them by self.
 
+## Requirements
+
+`sync.sh` requires **`rsync`** to copy configurations. Install it before using any install/backup commands:
+
+```bash
+# Arch Linux
+sudo pacman -S rsync
+
+# Debian/Ubuntu
+sudo apt install rsync
+
+# Fedora
+sudo dnf install rsync
+```
+
 ## How to Use `sync.sh`
 
 ### Quick Start

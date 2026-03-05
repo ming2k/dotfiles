@@ -7,6 +7,21 @@
 > [!WARNING]
 > 这些配置文件在一些依赖，包括但不限于命令行、主题以及图片。请检查这些配置文件并自行修复。
 
+## 依赖
+
+`sync.sh` 需要 **`rsync`** 来复制配置文件。在使用安装/备份命令前请先安装：
+
+```bash
+# Arch Linux
+sudo pacman -S rsync
+
+# Debian/Ubuntu
+sudo apt install rsync
+
+# Fedora
+sudo dnf install rsync
+```
+
 ## 使用方法
 
 ### 快速开始

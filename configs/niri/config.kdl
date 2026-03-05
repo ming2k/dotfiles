@@ -76,8 +76,10 @@ environment {
 
   // Qt Wayland support
   QT_QPA_PLATFORM "wayland"
-  QT_QPA_PLATFORMTHEME "gtk3"
+  // QT_QPA_PLATFORMTHEME "gtk3"
+  QT_QPA_PLATFORMTHEME "qt6ct"
   QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+  QT_ENABLE_HIGHDPI_SCALING "1"
 
   // GTK Wayland support
   GDK_BACKEND "wayland"
@@ -166,7 +168,7 @@ spawn-at-startup "dbus-update-activation-environment" "DISPLAY" "WAYLAND_DISPLAY
 spawn-at-startup "sh" "-c" "pkill -x quickshell; exec quickshell"
 
 // spawn-at-startup "sh" "-c" "swww-daemon && swww img \"$HOME/pictures/screenshots/screenshot-20260106-025049.png\" --resize crop"
-spawn-at-startup "sh" "-c" "pkill -x swww-daemon; swww-daemon && swww img \"$HOME/pictures/wallpapers/wallhaven-yq5ejd.png \" --resize crop"
+spawn-at-startup "sh" "-c" "pkill -x swww-daemon; swww-daemon && swww img \"$HOME/pictures/wallpapers/window-with-raindrops-on-a-rainy-day.png\" --outputs eDP-1 && swww img \"$HOME/pictures/wallpapers/window-with-raindrops-on-a-rainy-day.png\" --outputs HDMI-A-1"
 spawn-at-startup "sh" "-c" "pkill -x fcitx5; exec fcitx5 -r -d"
 
 spawn-at-startup "sh" "-c" r#"\
@@ -176,6 +178,7 @@ spawn-at-startup "sh" "-c" r#"\
     timeout 600 'swaylock -f' \
     timeout 605 'niri msg output eDP-1 off; niri msg output HDMI-A-1 off' \
         resume 'niri msg output eDP-1 on; niri msg output HDMI-A-1 on' \
+    timeout 1800 'systemctl suspend' \
     before-sleep 'swaylock -f' \
   "#
 
@@ -328,4 +331,3 @@ binds {
   Super+Space { spawn "sh" "-c" "echo toggle > /tmp/quickshell-summon.fifo"; }
   Super+Return { spawn "foot"; }
 }
-
